@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Viabilidad Inmobiliaria</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0f0f0f;--surface:#161616;--surface2:#1e1e1e;--border:#2a2a2a;
+  --accent:#c9a84c;--accent2:#e8c97a;--text:#f0ede8;--muted:#6b6b6b;
+  --green:#4caf82;--red:#e05555;--blue:#5b8dee;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:'Outfit',sans-serif;font-weight:300;min-height:100vh}
+header{border-bottom:1px solid var(--border);padding:2rem 3rem;display:flex;align-items:baseline;gap:1.5rem}
+.logo{font-family:'DM Serif Display',serif;font-size:1.5rem;color:var(--accent);letter-spacing:-0.02em}
+.logo-sub{font-size:.75rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase}
+nav{display:flex;padding:0 3rem;border-bottom:1px solid var(--border);overflow-x:auto}
+nav button{background:none;border:none;color:var(--muted);font-family:'Outfit',sans-serif;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;padding:1rem 1.5rem;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;white-space:nowrap}
+nav button:hover{color:var(--text)}
+nav button.active{color:var(--accent);border-bottom-color:var(--accent)}
+main{padding:2.5rem 3rem;max-width:1100px}
+.panel{display:none}.panel.active{display:block}
+.section-header{margin-bottom:2rem}
+.section-title{font-family:'DM Serif Display',serif;font-size:2rem;letter-spacing:-0.02em;margin-bottom:.4rem}
+.section-desc{font-size:.85rem;color:var(--muted);line-height:1.6;max-width:520px}
+.formula-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:.75rem;color:var(--accent);background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);padding:4px 10px;border-radius:4px;margin-top:.75rem}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:1.5rem}
+.card-title{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.75rem;color:var(--muted);margin-bottom:.4rem;letter-spacing:.04em}
+.field input{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:'DM Mono',monospace;font-size:.9rem;padding:.6rem .8rem;transition:border-color .15s;outline:none}
+.field input:focus{border-color:var(--accent)}
+.metric{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:1.2rem 1.4rem}
+.metric-label{font-size:.7rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:.5rem}
+.metric-value{font-family:'DM Mono',monospace;font-size:1.6rem;font-weight:500;line-height:1}
+.metric-value.positive{color:var(--green)}.metric-value.negative{color:var(--red)}.metric-value.accent{color:var(--accent)}
+.metric-sub{font-size:.72rem;color:var(--muted);margin-top:.4rem}
+.verdict{border-radius:8px;padding:1rem 1.4rem;font-size:.85rem;line-height:1.5;margin-top:1.5rem;border-left:3px solid}
+.verdict.ok{background:rgba(76,175,130,.06);border-color:var(--green);color:#7ecfa8}
+.verdict.bad{background:rgba(224,85,85,.06);border-color:var(--red);color:#e07a7a}
+.verdict.neutral{background:rgba(201,168,76,.06);border-color:var(--accent);color:var(--accent2)}
+.divider{border:none;border-top:1px solid var(--border);margin:2rem 0}
+.tbl-wrap{overflow-x:auto;margin-top:1rem}
+table{width:100%;border-collapse:collapse;font-size:.82rem}
+th{background:var(--surface2);color:var(--muted);font-weight:500;font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;padding:.7rem 1rem;text-align:right;border-bottom:1px solid var(--border)}
+th:first-child{text-align:center}
+td{padding:.6rem 1rem;text-align:right;font-family:'DM Mono',monospace;border-bottom:1px solid rgba(42,42,42,.6);color:var(--text)}
+td:first-child{text-align:center;color:var(--muted);font-family:'Outfit',sans-serif}
+tr.total td{background:var(--surface2);font-weight:500;border-top:1px solid var(--border)}
+.badge{display:inline-block;font-size:.65rem;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:3px;font-weight:500}
+.badge.ok{background:rgba(76,175,130,.12);color:var(--green)}
+.badge.bad{background:rgba(224,85,85,.12);color:var(--red)}
+.badge.warn{background:rgba(201,168,76,.12);color:var(--accent)}
+.wacc-bar-wrap{margin-top:.6rem}
+.wacc-bar-track{height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+.wacc-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+.sens-cell{padding:5px 8px;font-size:.72rem;font-family:'DM Mono',monospace;text-align:right;border:1px solid var(--border)}
+@media(max-width:700px){
+  header{padding:1.5rem}nav{padding:0 1rem}main{padding:1.5rem}
+  .grid-2,.grid-3,.grid-4{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">Viabilidad Inmobiliaria</div>
+  <div class="logo-sub">Análisis financiero de inversión</div>
+</header>
+<nav>
+  <button class="active" onclick="showPanel('cap',this)">Cap Rate</button>
+  <button onclick="showPanel('vpn',this)">VPN</button>
+  <button onclick="showPanel('tir',this)">TIR</button>
+  <button onclick="showPanel('wacc',this)">WACC</button>
+  <button onclick="showPanel('sens',this)">Sensibilidad</button>
+</nav>
+<main>
+
+<!-- CAP RATE -->
+<div id="panel-cap" class="panel active">
+  <div class="section-header">
+    <div class="section-title">Cap Rate</div>
+    <div class="section-desc">Rendimiento operativo neto de una propiedad, independiente de la estructura de financiamiento.</div>
+    <div class="formula-tag">Cap Rate = NOI / Valor de mercado</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Ingresos y gastos</div>
+      <div class="field"><label>Renta mensual ($)</label><input type="number" id="cap_renta" value="15000" oninput="calcCap()"></div>
+      <div class="field"><label>Vacancia estimada (%)</label><input type="number" id="cap_vac" value="7" step="0.5" oninput="calcCap()"></div>
+      <div class="field"><label>Gastos operativos anuales ($)</label><input type="number" id="cap_gastos" value="22000" oninput="calcCap()"></div>
+      <div class="field"><label>Valor / precio de la propiedad ($)</label><input type="number" id="cap_precio" value="2200000" oninput="calcCap()"></div>
+      <div class="field"><label>Cap Rate de mercado comparable (%)</label><input type="number" id="cap_mercado" value="7" step="0.1" oninput="calcCap()"></div>
+    </div>
+    <div>
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="metric"><div class="metric-label">Rentas brutas anuales</div><div class="metric-value accent" id="cap_brutas">—</div></div>
+        <div class="metric"><div class="metric-label">Rentas ajustadas por vacancia</div><div class="metric-value" id="cap_ajustadas">—</div></div>
+      </div>
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="metric"><div class="metric-label">NOI anual</div><div class="metric-value accent" id="cap_noi">—</div></div>
+        <div class="metric"><div class="metric-label">Cap Rate</div><div class="metric-value" id="cap_rate">—</div></div>
+      </div>
+      <div class="metric"><div class="metric-label">Valor implícito (NOI / Cap mercado)</div><div class="metric-value" id="cap_impl">—</div><div class="metric-sub" id="cap_diff">—</div></div>
+      <div id="cap_verdict" class="verdict neutral"></div>
+    </div>
+  </div>
+</div>
+
+<!-- VPN -->
+<div id="panel-vpn" class="panel">
+  <div class="section-header">
+    <div class="section-title">VPN — Valor Presente Neto</div>
+    <div class="section-desc">Valor en pesos de hoy que genera el proyecto descontando todos los flujos futuros al costo de capital.</div>
+    <div class="formula-tag">VPN = Σ [ Ft / (1+r)^t ] − Inversión</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Parámetros</div>
+      <div class="field"><label>Inversión inicial ($)</label><input type="number" id="vpn_inv" value="8000000" oninput="calcVPN()"></div>
+      <div class="field"><label>Renta anual año 1 ($)</label><input type="number" id="vpn_r1" value="900000" oninput="calcVPN()"></div>
+      <div class="field"><label>Crecimiento anual de renta (%)</label><input type="number" id="vpn_crec" value="4.5" step="0.1" oninput="calcVPN()"></div>
+      <div class="field"><label>Valor de venta al final ($)</label><input type="number" id="vpn_venta" value="12000000" oninput="calcVPN()"></div>
+      <div class="field"><label>Horizonte (años)</label><input type="number" id="vpn_anos" value="5" min="1" max="20" oninput="calcVPN()"></div>
+      <div class="field"><label>Tasa de descuento / WACC (%)</label><input type="number" id="vpn_tasa" value="12" step="0.1" oninput="calcVPN()"></div>
+    </div>
+    <div>
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="metric"><div class="metric-label">VPN</div><div class="metric-value" id="vpn_res">—</div></div>
+        <div class="metric"><div class="metric-label">Suma VP flujos</div><div class="metric-value accent" id="vpn_suma">—</div></div>
+      </div>
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="metric"><div class="metric-label">Índice de rentabilidad</div><div class="metric-value" id="vpn_ir">—</div><div class="metric-sub">VP flujos / inversión</div></div>
+        <div class="metric"><div class="metric-label">Decisión</div><div class="metric-value" id="vpn_dec" style="font-size:1.1rem">—</div></div>
+      </div>
+      <div id="vpn_verdict" class="verdict neutral"></div>
+      <hr class="divider">
+      <div class="card-title">Flujos descontados año a año</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Año</th><th>Flujo</th><th>Factor (1+r)^t</th><th>Valor presente</th></tr></thead><tbody id="vpn_tabla"></tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<!-- TIR -->
+<div id="panel-tir" class="panel">
+  <div class="section-header">
+    <div class="section-title">TIR — Tasa Interna de Retorno</div>
+    <div class="section-desc">Tasa que hace el VPN igual a cero. El proyecto conviene si TIR supera el WACC.</div>
+    <div class="formula-tag">0 = Σ [ Ft / (1+TIR)^t ] − Inversión</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Flujos del proyecto</div>
+      <div class="field"><label>Inversión inicial ($)</label><input type="number" id="tir_inv" value="1600000" oninput="calcTIR()"></div>
+      <div class="field"><label>Renta anual año 1 ($)</label><input type="number" id="tir_r1" value="120000" oninput="calcTIR()"></div>
+      <div class="field"><label>Inflación / crecimiento renta (%)</label><input type="number" id="tir_inf" value="4.5" step="0.1" oninput="calcTIR()"></div>
+      <div class="field"><label>Valor de venta ($)</label><input type="number" id="tir_venta" value="2800000" oninput="calcTIR()"></div>
+      <div class="field"><label>Horizonte (años)</label><input type="number" id="tir_anos" value="8" min="2" max="30" oninput="calcTIR()"></div>
+      <div class="field"><label>WACC / tasa mínima exigida (%)</label><input type="number" id="tir_wacc" value="10" step="0.1" oninput="calcTIR()"></div>
+    </div>
+    <div>
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="metric"><div class="metric-label">TIR calculada</div><div class="metric-value accent" id="tir_res">—</div></div>
+        <div class="metric"><div class="metric-label">WACC</div><div class="metric-value" id="tir_wshow">—</div></div>
+      </div>
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="metric"><div class="metric-label">Spread TIR − WACC</div><div class="metric-value" id="tir_spread">—</div><div class="metric-sub">margen sobre costo de capital</div></div>
+        <div class="metric"><div class="metric-label">VPN al WACC</div><div class="metric-value" id="tir_vpn">—</div></div>
+      </div>
+      <div id="tir_verdict" class="verdict neutral"></div>
+      <hr class="divider">
+      <div class="card-title">Flujos del proyecto</div>
+      <div class="tbl-wrap"><table><thead><tr><th>Año</th><th>Renta</th><th>Flujo total</th><th>VP al WACC</th></tr></thead><tbody id="tir_tabla"></tbody></table></div>
+    </div>
+  </div>
+</div>
+
+<!-- WACC -->
+<div id="panel-wacc" class="panel">
+  <div class="section-header">
+    <div class="section-title">WACC</div>
+    <div class="section-desc">Costo promedio ponderado de capital. Tasa mínima que debe rendir el proyecto para generar valor a todos los inversionistas.</div>
+    <div class="formula-tag">WACC = (E/V)·Re + (D/V)·Rd·(1−T)</div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-title">Estructura de capital</div>
+      <div class="field"><label>Capital propio — E ($)</label><input type="number" id="w_e" value="1000000" oninput="calcWACC()"></div>
+      <div class="field"><label>Deuda — D ($)</label><input type="number" id="w_d" value="600000" oninput="calcWACC()"></div>
+      <div class="field"><label>Costo capital propio — Re (%)</label><input type="number" id="w_re" value="14" step="0.1" oninput="calcWACC()"></div>
+      <div class="field"><label>Tasa de deuda — Rd (%)</label><input type="number" id="w_rd" value="11" step="0.1" oninput="calcWACC()"></div>
+      <div class="field"><label>Tasa ISR (%)</label><input type="number" id="w_t" value="30" oninput="calcWACC()"></div>
+    </div>
+    <div>
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="metric"><div class="metric-label">Capital total V</div><div class="metric-value accent" id="w_v">—</div></div>
+        <div class="metric"><div class="metric-label">WACC</div><div class="metric-value accent" id="w_wacc">—</div><div class="metric-sub">tasa mínima exigida</div></div>
+      </div>
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="metric">
+          <div class="metric-label">Peso capital propio</div>
+          <div class="metric-value" id="w_pe">—</div>
+          <div class="wacc-bar-wrap"><div class="wacc-bar-track"><div class="wacc-bar-fill" id="w_bar_e" style="background:var(--accent)"></div></div></div>
+        </div>
+        <div class="metric">
+          <div class="metric-label">Peso deuda</div>
+          <div class="metric-value" id="w_pd">—</div>
+          <div class="wacc-bar-wrap"><div class="wacc-bar-track"><div class="wacc-bar-fill" id="w_bar_d" style="background:var(--blue)"></div></div></div>
+        </div>
+      </div>
+      <div class="grid-2">
+        <div class="metric"><div class="metric-label">Costo deuda pre-impuesto</div><div class="metric-value" id="w_rdpre">—</div></div>
+        <div class="metric"><div class="metric-label">Costo deuda post-impuesto</div><div class="metric-value positive" id="w_rdpost">—</div><div class="metric-sub">con escudo fiscal ISR</div></div>
+      </div>
+      <hr class="divider">
+      <div class="card">
+        <div class="card-title">Componentes del WACC</div>
+        <div class="tbl-wrap"><table><thead><tr><th style="text-align:left">Componente</th><th>Peso</th><th>Costo</th><th>Contribución al WACC</th></tr></thead><tbody id="w_tabla"></tbody></table></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SENSIBILIDAD -->
+<div id="panel-sens" class="panel">
+  <div class="section-header">
+    <div class="section-title">Análisis de Sensibilidad</div>
+    <div class="section-desc">Tabla de doble entrada: impacto en VPN al variar precio de venta y tasa de descuento simultáneamente. Identifica el punto de quiebre del proyecto.</div>
+    <div class="formula-tag">VPN base → variaciones ±5% a ±20%</div>
+  </div>
+  <div class="card" style="margin-bottom:1.5rem">
+    <div class="card-title">Parámetros base</div>
+    <div class="grid-4">
+      <div class="field"><label>Inversión ($)</label><input type="number" id="s_inv" value="8000000" oninput="calcSens()"></div>
+      <div class="field"><label>Flujo anual ($)</label><input type="number" id="s_f" value="900000" oninput="calcSens()"></div>
+      <div class="field"><label>Venta final ($)</label><input type="number" id="s_v" value="12000000" oninput="calcSens()"></div>
+      <div class="field"><label>Tasa base (%) &nbsp;/&nbsp; Años</label>
+        <div style="display:flex;gap:8px">
+          <input type="number" id="s_r" value="12" step="0.5" oninput="calcSens()" style="width:55%">
+          <input type="number" id="s_a" value="5" min="1" max="20" oninput="calcSens()" style="width:45%">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-bottom:1.5rem">
+    <div class="metric"><div class="metric-label">VPN base</div><div class="metric-value" id="s_base">—</div></div>
+    <div class="metric"><div class="metric-label">Precio mínimo de venta para VPN = 0</div><div class="metric-value" id="s_quiebre">—</div><div class="metric-sub">punto de quiebre a tasa base</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title" style="margin-bottom:1rem">VPN — precio de venta (filas) × tasa de descuento (columnas)</div>
+    <div class="tbl-wrap"><table id="s_tabla"></table></div>
+    <div style="display:flex;gap:1rem;margin-top:1rem;flex-wrap:wrap;align-items:center">
+      <span class="badge ok">VPN &gt; $1M</span>
+      <span class="badge warn">VPN $0–$1M</span>
+      <span class="badge bad">VPN &lt; $0</span>
+      <span style="font-size:.72rem;color:var(--muted)">Celda dorada = escenario base</span>
+    </div>
+  </div>
+</div>
+
+</main>
+<script>
+const fm = n=>'$'+Math.round(n).toLocaleString('es-MX');
+const pp = n=>(n*100).toFixed(2)+'%';
+const pp1= n=>(n*100).toFixed(1)+'%';
+
+function showPanel(id,btn){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+function calcCap(){
+  const renta=+document.getElementById('cap_renta').value;
+  const vac=+document.getElementById('cap_vac').value/100;
+  const gastos=+document.getElementById('cap_gastos').value;
+  const precio=+document.getElementById('cap_precio').value;
+  const mercado=+document.getElementById('cap_mercado').value/100;
+  const brutas=renta*12;
+  const ajust=brutas*(1-vac);
+  const noi=ajust-gastos;
+  const cap=noi/precio;
+  const impl=noi/mercado;
+  const diff=impl-precio;
+  document.getElementById('cap_brutas').textContent=fm(brutas);
+  document.getElementById('cap_ajustadas').textContent=fm(ajust);
+  document.getElementById('cap_noi').textContent=fm(noi);
+  const cel=document.getElementById('cap_rate');
+  cel.textContent=pp(cap);
+  cel.className='metric-value '+(cap>=mercado?'positive':'negative');
+  document.getElementById('cap_impl').textContent=fm(impl);
+  document.getElementById('cap_diff').textContent=(diff>=0?'+':'')+fm(diff)+' vs precio pedido';
+  const v=document.getElementById('cap_verdict');
+  if(cap>=mercado){v.className='verdict ok';v.textContent=`Cap Rate de ${pp(cap)} supera al mercado comparable (${pp(mercado)}). El valor implícito es ${fm(impl)} — ${fm(Math.abs(diff))} por ${diff>=0?'encima':'debajo'} del precio pedido.`;}
+  else{v.className='verdict bad';v.textContent=`Cap Rate de ${pp(cap)} está por debajo del mercado (${pp(mercado)}). El valor implícito es ${fm(impl)} vs precio pedido ${fm(precio)}. Considera negociar precio o mejorar NOI.`;}
+}
+
+function calcVPN(){
+  const inv=+document.getElementById('vpn_inv').value;
+  const r1=+document.getElementById('vpn_r1').value;
+  const crec=+document.getElementById('vpn_crec').value/100;
+  const venta=+document.getElementById('vpn_venta').value;
+  const anos=+document.getElementById('vpn_anos').value;
+  const tasa=+document.getElementById('vpn_tasa').value/100;
+  let suma=0,html='';
+  for(let t=1;t<=anos;t++){
+    const r=r1*Math.pow(1+crec,t-1);
+    const f=t<anos?r:r+venta;
+    const fac=Math.pow(1+tasa,t);
+    const vp=f/fac;
+    suma+=vp;
+    html+=`<tr><td>${t}</td><td>${fm(f)}</td><td>${fac.toFixed(4)}</td><td>${fm(vp)}</td></tr>`;
+  }
+  html+=`<tr class="total"><td>—</td><td colspan="2">Suma VP</td><td>${fm(suma)}</td></tr>`;
+  html+=`<tr class="total"><td>—</td><td colspan="2">− Inversión inicial</td><td style="color:var(--red)">${fm(-inv)}</td></tr>`;
+  const vpn=suma-inv;
+  const ir=suma/inv;
+  document.getElementById('vpn_tabla').innerHTML=html;
+  document.getElementById('vpn_suma').textContent=fm(suma);
+  const rv=document.getElementById('vpn_res');rv.textContent=fm(vpn);rv.className='metric-value '+(vpn>0?'positive':'negative');
+  const ri=document.getElementById('vpn_ir');ri.textContent=ir.toFixed(3)+'x';ri.className='metric-value '+(ir>1?'positive':'negative');
+  const rd=document.getElementById('vpn_dec');rd.textContent=vpn>0?'Aprobar':'Rechazar';rd.className='metric-value '+(vpn>0?'positive':'negative');
+  const v=document.getElementById('vpn_verdict');
+  if(vpn>0){v.className='verdict ok';v.textContent=`El proyecto genera ${fm(vpn)} de valor neto sobre el costo de capital (${pp(tasa)}). Por cada peso invertido se recuperan ${ir.toFixed(2)} pesos en valor presente.`;}
+  else{v.className='verdict bad';v.textContent=`VPN negativo de ${fm(Math.abs(vpn))}. Los flujos no cubren la inversión al ${pp(tasa)}. Revisa precio de venta, horizonte o tasa de descuento.`;}
+}
+
+function calcTIR(){
+  const inv=+document.getElementById('tir_inv').value;
+  const r1=+document.getElementById('tir_r1').value;
+  const inf=+document.getElementById('tir_inf').value/100;
+  const venta=+document.getElementById('tir_venta').value;
+  const anos=+document.getElementById('tir_anos').value;
+  const wacc=+document.getElementById('tir_wacc').value/100;
+  const flujos=[-inv];
+  const rentas=[];
+  for(let t=1;t<=anos;t++){const r=r1*Math.pow(1+inf,t-1);rentas.push(r);flujos.push(t<anos?r:r+venta);}
+  let tir=0.1;
+  for(let i=0;i<2000;i++){
+    let vpn=0,dvpn=0;
+    for(let t=0;t<flujos.length;t++){vpn+=flujos[t]/Math.pow(1+tir,t);dvpn-=t*flujos[t]/Math.pow(1+tir,t+1);}
+    const s=vpn/dvpn;tir-=s;if(Math.abs(s)<1e-12)break;
+  }
+  let vpnW=0,html='';
+  for(let t=1;t<=anos;t++){
+    const r=rentas[t-1];const f=flujos[t];const vp=f/Math.pow(1+wacc,t);vpnW+=vp;
+    html+=`<tr><td>${t}</td><td>${fm(r)}</td><td>${fm(f)}</td><td>${fm(vp)}</td></tr>`;
+  }
+  vpnW-=inv;
+  html+=`<tr class="total"><td>—</td><td colspan="2">VPN al WACC</td><td style="color:${vpnW>0?'var(--green)':'var(--red)'}">${fm(vpnW)}</td></tr>`;
+  document.getElementById('tir_tabla').innerHTML=html;
+  document.getElementById('tir_res').textContent=pp(tir);
+  document.getElementById('tir_wshow').textContent=pp(wacc);
+  const spread=tir-wacc;
+  const se=document.getElementById('tir_spread');se.textContent=(spread>=0?'+':'')+pp(spread);se.className='metric-value '+(spread>=0?'positive':'negative');
+  const ve=document.getElementById('tir_vpn');ve.textContent=fm(vpnW);ve.className='metric-value '+(vpnW>=0?'positive':'negative');
+  const v=document.getElementById('tir_verdict');
+  if(tir>wacc){v.className='verdict ok';v.textContent=`TIR de ${pp(tir)} supera el WACC de ${pp(wacc)} por ${pp(spread)}. El proyecto crea valor — VPN positivo de ${fm(vpnW)} lo confirma.`;}
+  else{v.className='verdict bad';v.textContent=`TIR de ${pp(tir)} no alcanza el WACC de ${pp(wacc)}. El proyecto destruye ${fm(Math.abs(vpnW))} de valor. Revisa flujos o negocia mejor precio de entrada.`;}
+}
+
+function calcWACC(){
+  const E=+document.getElementById('w_e').value;
+  const D=+document.getElementById('w_d').value;
+  const Re=+document.getElementById('w_re').value/100;
+  const Rd=+document.getElementById('w_rd').value/100;
+  const T=+document.getElementById('w_t').value/100;
+  const V=E+D;const pe=E/V;const pd=D/V;
+  const rdnet=Rd*(1-T);const wacc=pe*Re+pd*rdnet;
+  document.getElementById('w_v').textContent=fm(V);
+  document.getElementById('w_wacc').textContent=pp(wacc);
+  document.getElementById('w_pe').textContent=pp1(pe);
+  document.getElementById('w_pd').textContent=pp1(pd);
+  document.getElementById('w_rdpre').textContent=pp(Rd);
+  document.getElementById('w_rdpost').textContent=pp(rdnet);
+  document.getElementById('w_bar_e').style.width=pp1(pe);
+  document.getElementById('w_bar_d').style.width=pp1(pd);
+  document.getElementById('w_tabla').innerHTML=`
+    <tr><td style="text-align:left;font-family:'Outfit',sans-serif;color:var(--accent)">Capital propio</td><td>${pp1(pe)}</td><td>${pp(Re)}</td><td>${pp(pe*Re)}</td></tr>
+    <tr><td style="text-align:left;font-family:'Outfit',sans-serif;color:var(--blue)">Deuda (post-ISR)</td><td>${pp1(pd)}</td><td>${pp(rdnet)}</td><td>${pp(pd*rdnet)}</td></tr>
+    <tr class="total"><td style="text-align:left;font-family:'Outfit',sans-serif">WACC total</td><td>100%</td><td>—</td><td style="color:var(--accent)">${pp(wacc)}</td></tr>`;
+}
+
+function calcSens(){
+  const inv=+document.getElementById('s_inv').value;
+  const f=+document.getElementById('s_f').value;
+  const v=+document.getElementById('s_v').value;
+  const r=+document.getElementById('s_r').value/100;
+  const a=+document.getElementById('s_a').value;
+  function vpn(flujo,venta,tasa){
+    let res=-inv;
+    for(let t=1;t<=a;t++)res+=(t<a?flujo:flujo+venta)/Math.pow(1+tasa,t);
+    return res;
+  }
+  const base=vpn(f,v,r);
+  document.getElementById('s_base').textContent=fm(base);
+  document.getElementById('s_base').className='metric-value '+(base>0?'accent':'negative');
+  let lo=0,hi=inv*20,qb=v;
+  for(let i=0;i<200;i++){const mid=(lo+hi)/2;if(vpn(f,mid,r)>0)hi=mid;else lo=mid;qb=mid;}
+  document.getElementById('s_quiebre').textContent=fm(qb);
+  const dv=[-0.20,-0.15,-0.10,-0.05,0,0.05,0.10,0.15,0.20];
+  const dt=[-0.04,-0.03,-0.02,-0.01,0,0.01,0.02,0.03,0.04];
+  let html='<thead><tr><th style="text-align:center;font-size:.65rem">Precio \\ Tasa</th>';
+  dt.forEach(d=>html+=`<th style="font-size:.65rem">${d>=0?'+':''}${(d*100).toFixed(0)}%</th>`);
+  html+='</tr></thead><tbody>';
+  dv.forEach(dp=>{
+    html+=`<tr><td class="sens-cell" style="font-weight:500;text-align:center;background:var(--surface2);font-family:'Outfit',sans-serif;font-size:.72rem;color:var(--muted)">${dp>=0?'+':''}${(dp*100).toFixed(0)}%</td>`;
+    dt.forEach(d=>{
+      const val=vpn(f,v*(1+dp),r+d);
+      const isBase=dp===0&&d===0;
+      const bg=isBase?'rgba(201,168,76,.15)':val>1000000?'rgba(76,175,130,.1)':val>0?'rgba(76,175,130,.04)':val>-1000000?'rgba(224,85,85,.06)':'rgba(224,85,85,.14)';
+      const col=val>0?'var(--green)':'var(--red)';
+      const bord=isBase?'1px solid rgba(201,168,76,.6)':'1px solid var(--border)';
+      html+=`<td class="sens-cell" style="background:${bg};color:${col};border:${bord};${isBase?'font-weight:500':''}">${fm(val)}</td>`;
+    });
+    html+='</tr>';
+  });
+  html+='</tbody>';
+  document.getElementById('s_tabla').innerHTML=html;
+}
+
+calcCap();calcVPN();calcTIR();calcWACC();calcSens();
+</script>
+</body>
+</html>
