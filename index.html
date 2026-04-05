@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Calculadora de Viabilidad Inmobiliaria</title>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -85,7 +86,7 @@ tr.total td{background:var(--surface2);font-weight:500;border-top:1px solid var(
   <div class="section-header">
     <div class="section-title">Cap Rate</div>
     <div class="section-desc">Rendimiento operativo neto de una propiedad, independiente de la estructura de financiamiento.</div>
-    <div class="formula-tag">Cap Rate = NOI / Valor de mercado</div>
+   <div class="formula-tag">\( \text{Cap Rate} = \frac{NOI}{\text{Valor de mercado}} \)</div>
   </div>
   <div class="grid-2">
     <div class="card">
@@ -116,7 +117,7 @@ tr.total td{background:var(--surface2);font-weight:500;border-top:1px solid var(
   <div class="section-header">
     <div class="section-title">VPN — Valor Presente Neto</div>
     <div class="section-desc">Valor en pesos de hoy que genera el proyecto descontando todos los flujos futuros al costo de capital.</div>
-    <div class="formula-tag">VPN = Σ [ Ft / (1+r)^t ] − Inversión</div>
+    <div class="formula-tag">\( VPN = \sum_{t=1}^{n} \frac{F_t}{(1+r)^t} - I_0 \)</div>
   </div>
   <div class="grid-2">
     <div class="card">
@@ -150,7 +151,7 @@ tr.total td{background:var(--surface2);font-weight:500;border-top:1px solid var(
   <div class="section-header">
     <div class="section-title">TIR — Tasa Interna de Retorno</div>
     <div class="section-desc">Tasa que hace el VPN igual a cero. El proyecto conviene si TIR supera el WACC.</div>
-    <div class="formula-tag">0 = Σ [ Ft / (1+TIR)^t ] − Inversión</div>
+    <div class="formula-tag">\( 0 = \sum_{t=1}^{n} \frac{F_t}{(1+\text{TIR})^t} - I_0 \)</div>
   </div>
   <div class="grid-2">
     <div class="card">
@@ -184,7 +185,7 @@ tr.total td{background:var(--surface2);font-weight:500;border-top:1px solid var(
   <div class="section-header">
     <div class="section-title">WACC</div>
     <div class="section-desc">Costo promedio ponderado de capital. Tasa mínima que debe rendir el proyecto para generar valor a todos los inversionistas.</div>
-    <div class="formula-tag">WACC = (E/V)·Re + (D/V)·Rd·(1−T)</div>
+    <div class="formula-tag">\( WACC = \frac{E}{V}R_e + \frac{D}{V}R_d(1-T) \)</div>
   </div>
   <div class="grid-2">
     <div class="card">
@@ -230,7 +231,7 @@ tr.total td{background:var(--surface2);font-weight:500;border-top:1px solid var(
   <div class="section-header">
     <div class="section-title">Análisis de Sensibilidad</div>
     <div class="section-desc">Tabla de doble entrada: impacto en VPN al variar precio de venta y tasa de descuento simultáneamente. Identifica el punto de quiebre del proyecto.</div>
-    <div class="formula-tag">VPN base → variaciones ±5% a ±20%</div>
+   <div class="formula-tag">\( VPN_{base} \rightarrow \text{variaciones } \pm 5\% \text{ a } \pm 20\% \)</div>
   </div>
   <div class="card" style="margin-bottom:1.5rem">
     <div class="card-title">Parámetros base</div>
