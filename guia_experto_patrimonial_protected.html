@@ -1,0 +1,1606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head><script>
+(function(){
+  var stored = sessionStorage.getItem("auth_ok");
+  if(stored === "Antani26") return;
+  document.addEventListener("DOMContentLoaded", function(){
+    document.body.style.display = "none";
+    var overlay = document.createElement("div");
+    overlay.id = "pw-overlay";
+    overlay.style.cssText = "position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#0D1B2A;font-family:sans-serif;";
+    overlay.innerHTML = '<div style="background:#1E1E28;border:1px solid rgba(255,255,255,.1);border-radius:18px;padding:44px 48px;text-align:center;max-width:380px;width:90%;"><div style="font-size:28px;margin-bottom:10px;">&#128274;</div><div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#7B6EF6;margin-bottom:8px;">Documento Privado</div><h2 style="color:#F0EFF8;font-size:20px;font-weight:600;margin-bottom:6px;">Acceso Restringido</h2><p style="color:#6E6E88;font-size:13px;margin-bottom:28px;">Ingresa la contrasena para continuar</p><input id="pw-input" type="password" placeholder="Contrasena" style="width:100%;padding:12px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.12);background:#141418;color:#F0EFF8;font-size:15px;outline:none;margin-bottom:12px;box-sizing:border-box;" /><div id="pw-error" style="color:#E86E6E;font-size:12px;min-height:18px;margin-bottom:10px;"></div><button id="pw-btn" style="width:100%;padding:13px;border-radius:10px;background:linear-gradient(135deg,#7B6EF6,#A99EFA);border:none;color:white;font-size:14px;font-weight:600;cursor:pointer;letter-spacing:.04em;">Entrar</button></div>';
+    document.body.parentElement.appendChild(overlay);
+    function check(){
+      var val = document.getElementById("pw-input").value;
+      if(val === "Antani26"){
+        sessionStorage.setItem("auth_ok","Antani26");
+        overlay.remove();
+        document.body.style.display = "";
+      } else {
+        document.getElementById("pw-error").textContent = "Contrasena incorrecta, intenta de nuevo.";
+        document.getElementById("pw-input").value = "";
+        document.getElementById("pw-input").focus();
+      }
+    }
+    document.getElementById("pw-btn").addEventListener("click", check);
+    document.getElementById("pw-input").addEventListener("keydown", function(e){ if(e.key==="Enter") check(); });
+    setTimeout(function(){ document.getElementById("pw-input").focus(); }, 100);
+  });
+})();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guía del Experto — Estructuras Patrimoniales Internacionales</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Epilogue:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0E0E12;
+  --bg2: #141418;
+  --bg3: #1A1A22;
+  --card: #1E1E28;
+  --card2: #22222E;
+  --border: rgba(255,255,255,.07);
+  --border2: rgba(255,255,255,.04);
+
+  --p1: #7B6EF6;   /* violet */
+  --p1l: #A99EFA;
+  --p1pale: rgba(123,110,246,.12);
+
+  --a1: #E8955A;   /* amber */
+  --a1l: #F2B580;
+  --a1pale: rgba(232,149,90,.1);
+
+  --g1: #4FC49A;   /* teal */
+  --g1l: #7DDAB5;
+  --g1pale: rgba(79,196,154,.1);
+
+  --r1: #E86E6E;
+  --r1pale: rgba(232,110,110,.1);
+
+  --b1: #5BA3E8;
+  --b1pale: rgba(91,163,232,.1);
+
+  --text: #F0EFF8;
+  --text2: #9998B5;
+  --text3: #5E5D78;
+
+  --gold: #D4A96A;
+  --gold2: #EEC98A;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Epilogue', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+/* ── HERO ── */
+.hero {
+  position: relative;
+  overflow: hidden;
+  padding: 90px 60px 70px;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(123,110,246,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(79,196,154,.07) 0%, transparent 60%);
+}
+.hero-inner { position: relative; max-width: 980px; margin: 0 auto; }
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--p1l);
+  margin-bottom: 22px;
+  padding: 5px 14px;
+  border: 1px solid rgba(123,110,246,.3);
+  border-radius: 20px;
+  background: rgba(123,110,246,.08);
+}
+.hero-eyebrow::before { content: '◆'; font-size: 9px; }
+.hero h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 1.0;
+  color: var(--text);
+  margin-bottom: 18px;
+  letter-spacing: -.02em;
+}
+.hero h1 em {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--p1l);
+}
+.hero-sub {
+  font-size: 16px;
+  color: var(--text2);
+  font-weight: 300;
+  max-width: 580px;
+  margin-bottom: 44px;
+  line-height: 1.65;
+}
+.hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.hero-pill {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 16px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--text2);
+  background: var(--bg3);
+}
+
+/* ── PART BANNERS ── */
+.part-banner {
+  padding: 0 60px;
+  max-width: 980px;
+  margin: 0 auto;
+}
+.part-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 52px 0 36px;
+}
+.part-number {
+  font-family: 'Fraunces', serif;
+  font-size: 100px;
+  font-weight: 700;
+  line-height: .9;
+  letter-spacing: -.04em;
+}
+.part-number.violet { color: var(--p1); opacity: .4; }
+.part-number.amber  { color: var(--a1); opacity: .4; }
+.part-info {}
+.part-info .part-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.part-info .part-label.violet { color: var(--p1l); }
+.part-info .part-label.amber  { color: var(--a1l); }
+.part-info h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 34px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.1;
+}
+.part-info p {
+  font-size: 14px;
+  color: var(--text2);
+  font-weight: 300;
+  margin-top: 6px;
+}
+.part-divider {
+  height: 1px;
+  background: linear-gradient(to right, var(--border), transparent);
+  margin-bottom: 44px;
+}
+
+/* ── LAYOUT ── */
+.page { max-width: 980px; margin: 0 auto; padding: 0 60px; }
+
+/* ── MODULE CARD ── */
+.module {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+.module-header {
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1px solid var(--border2);
+  cursor: pointer;
+  user-select: none;
+}
+.module-num {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+}
+.module-num.v { background: var(--p1pale); color: var(--p1l); }
+.module-num.a { background: var(--a1pale); color: var(--a1l); }
+.module-num.g { background: var(--g1pale); color: var(--g1l); }
+.module-num.b { background: var(--b1pale); color: var(--b1l); }
+.module-num.r { background: var(--r1pale); color: var(--r1); }
+.module-title-block { flex: 1; }
+.module-title-block h3 {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.2;
+}
+.module-title-block p {
+  font-size: 12.5px;
+  color: var(--text2);
+  margin-top: 2px;
+  font-weight: 300;
+}
+.module-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+.module-badge.v { background: var(--p1pale); color: var(--p1l); }
+.module-badge.a { background: var(--a1pale); color: var(--a1l); }
+.module-badge.g { background: var(--g1pale); color: var(--g1l); }
+.module-badge.b { background: var(--b1pale); color: var(--b1l); }
+.module-badge.r { background: var(--r1pale); color: var(--r1); }
+
+.module-body { padding: 28px 28px 24px; }
+
+/* ── CONCEPT GRID ── */
+.concept-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.concept-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.concept-card .ctag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.concept-card .ctag::before { content: ''; display: block; width: 12px; height: 1px; }
+.ctag.v { color: var(--p1l); }
+.ctag.v::before { background: var(--p1); }
+.ctag.a { color: var(--a1l); }
+.ctag.a::before { background: var(--a1); }
+.ctag.g { color: var(--g1l); }
+.ctag.g::before { background: var(--g1); }
+.ctag.b { color: var(--b1); }
+.ctag.b::before { background: var(--b1); }
+.concept-card h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 7px;
+}
+.concept-card p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* ── KEY TERMS ── */
+.terms-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+.term-row {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+  align-items: baseline;
+  padding: 10px 14px;
+  background: var(--bg3);
+  border-radius: 10px;
+  border: 1px solid var(--border2);
+}
+.term-row .tname {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gold2);
+}
+.term-row .tdef {
+  font-size: 13px;
+  color: var(--text2);
+  font-weight: 300;
+  line-height: 1.55;
+}
+
+/* ── ANALOGY BOX ── */
+.analogy {
+  border-left: 2px solid var(--g1);
+  padding: 14px 18px;
+  background: var(--g1pale);
+  border-radius: 0 10px 10px 0;
+  margin-bottom: 18px;
+}
+.analogy .alabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--g1);
+  margin-bottom: 5px;
+}
+.analogy p {
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-weight: 300;
+}
+.analogy strong { color: var(--g1l); font-weight: 500; }
+
+/* ── FLOW DIAGRAM ── */
+.flow-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 22px;
+}
+.fd-node {
+  width: 100%;
+  max-width: 420px;
+  padding: 11px 18px;
+  border-radius: 10px;
+  text-align: center;
+}
+.fd-node .fn-label { font-size: 13px; font-weight: 600; color: var(--text); }
+.fd-node .fn-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+.fd-node.v { background: var(--p1pale); border: 1px solid rgba(123,110,246,.25); }
+.fd-node.a { background: var(--a1pale); border: 1px solid rgba(232,149,90,.25); }
+.fd-node.g { background: var(--g1pale); border: 1px solid rgba(79,196,154,.25); }
+.fd-node.b { background: var(--b1pale); border: 1px solid rgba(91,163,232,.25); }
+.fd-node.dark { background: var(--bg3); border: 1px solid var(--border); }
+.fd-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4px 0;
+}
+.fd-arrow-line {
+  width: 1px;
+  height: 18px;
+  background: linear-gradient(to bottom, var(--p1), var(--g1));
+  opacity: .5;
+}
+.fd-arrow-head {
+  width: 0; height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid var(--g1);
+  opacity: .5;
+}
+.fd-label {
+  font-size: 10px;
+  color: var(--text3);
+  text-align: center;
+  margin: 2px 0;
+  font-style: italic;
+}
+
+/* ── COMPARISON MINI ── */
+.mini-compare {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.mc-col {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+}
+.mc-col .mc-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.mc-col.vc .mc-title { color: var(--p1l); }
+.mc-col.ac .mc-title { color: var(--a1l); }
+.mc-col li {
+  font-size: 12.5px;
+  color: var(--text2);
+  list-style: none;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border2);
+  display: flex;
+  gap: 7px;
+}
+.mc-col li:last-child { border-bottom: none; }
+
+/* ── CHECKLIST ── */
+.checklist { list-style: none; margin-bottom: 18px; }
+.checklist li {
+  display: flex;
+  gap: 12px;
+  font-size: 13.5px;
+  color: var(--text2);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border2);
+  line-height: 1.5;
+  font-weight: 300;
+}
+.checklist li:last-child { border-bottom: none; }
+.checklist li .ico { flex-shrink: 0; font-size: 14px; margin-top: 2px; }
+.checklist li strong { color: var(--text); font-weight: 500; }
+
+/* ── TIP BOX ── */
+.tip {
+  border: 1px solid rgba(212,169,106,.25);
+  background: rgba(212,169,106,.06);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 16px;
+}
+.tip .tlabel {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 5px;
+}
+.tip p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-weight: 300;
+}
+.tip strong { color: var(--gold2); font-weight: 500; }
+
+/* ── RESOURCE CARDS ── */
+.resources-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.res-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+.res-card .rtype {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.res-card .rtype.book { color: var(--p1l); }
+.res-card .rtype.web  { color: var(--g1l); }
+.res-card .rtype.concept { color: var(--a1l); }
+.res-card h5 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 5px;
+  line-height: 1.3;
+}
+.res-card p {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.5;
+  font-weight: 300;
+}
+
+/* ── ROADMAP ── */
+.roadmap { display: flex; flex-direction: column; gap: 0; margin-bottom: 22px; }
+.rm-step {
+  display: flex;
+  gap: 20px;
+  position: relative;
+}
+.rm-step:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 36px;
+  bottom: -8px;
+  width: 1px;
+  background: linear-gradient(to bottom, var(--p1), transparent);
+  opacity: .3;
+}
+.rm-dot {
+  min-width: 33px;
+  height: 33px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+.rm-dot.v { background: var(--p1pale); color: var(--p1l); border: 1px solid rgba(123,110,246,.3); }
+.rm-dot.a { background: var(--a1pale); color: var(--a1l); border: 1px solid rgba(232,149,90,.3); }
+.rm-dot.g { background: var(--g1pale); color: var(--g1l); border: 1px solid rgba(79,196,154,.3); }
+.rm-content { padding-bottom: 24px; flex: 1; }
+.rm-content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+.rm-content p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-weight: 300;
+}
+.rm-content .rm-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.rm-tag {
+  font-size: 11px;
+  padding: 2px 9px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  color: var(--text3);
+}
+
+/* ── SECTION LABEL ── */
+.slabel {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 22px 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.slabel::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+/* ── ADVANCED BLOCKS ── */
+.adv-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+.adv-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+}
+.adv-card .atag {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.adv-card .atag.v { color: var(--p1l); }
+.adv-card .atag.a { color: var(--a1l); }
+.adv-card .atag.g { color: var(--g1l); }
+.adv-card .atag.b { color: var(--b1); }
+.adv-card .atag.r { color: var(--r1); }
+.adv-card h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.3;
+}
+.adv-card p {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-weight: 300;
+}
+.adv-card strong { color: var(--text); font-weight: 500; }
+
+/* ── MASTERY METER ── */
+.mastery-section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+.mastery-section h3 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 24px;
+}
+.mastery-item { margin-bottom: 18px; }
+.mastery-item:last-child { margin-bottom: 0; }
+.mastery-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+.mastery-name { font-size: 13.5px; font-weight: 500; color: var(--text); }
+.mastery-pct { font-size: 12px; color: var(--text3); }
+.mastery-bar {
+  height: 5px;
+  background: var(--bg3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.mastery-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease;
+}
+.fill-v { background: linear-gradient(to right, var(--p1), var(--p1l)); }
+.fill-a { background: linear-gradient(to right, var(--a1), var(--a1l)); }
+.fill-g { background: linear-gradient(to right, var(--g1), var(--g1l)); }
+.fill-b { background: linear-gradient(to right, var(--b1), #8DC6F0); }
+
+/* ── FOOTER ── */
+.footer {
+  background: var(--bg2);
+  border-top: 1px solid var(--border);
+  padding: 32px 60px;
+  text-align: center;
+  margin-top: 60px;
+}
+.footer p { font-size: 12px; color: var(--text3); }
+
+hr.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 28px 0;
+}
+
+@media (max-width: 640px) {
+  .concept-grid, .mini-compare, .adv-grid, .resources-grid { grid-template-columns: 1fr; }
+  .hero h1 { font-size: 36px; }
+  .part-number { font-size: 60px; }
+  .term-row { grid-template-columns: 1fr; gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Ruta de aprendizaje completa</div>
+    <h1>Guía para Volverse<br><em>Experto</em> en Estructuras<br>Patrimoniales</h1>
+    <p class="hero-sub">Todo lo que necesitas dominar — desde los fundamentos hasta el pensamiento estratégico avanzado — organizado en dos etapas progresivas.</p>
+    <div class="hero-pills">
+      <span class="hero-pill">Trusts internacionales</span>
+      <span class="hero-pill">Derecho sucesorio</span>
+      <span class="hero-pill">Fiscalidad internacional</span>
+      <span class="hero-pill">Jurisdicciones offshore</span>
+      <span class="hero-pill">Protección patrimonial</span>
+      <span class="hero-pill">Estructuras holding</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     PARTE 1
+═══════════════════════════════════════ -->
+<div class="part-banner">
+  <div class="part-header">
+    <div class="part-number violet">I</div>
+    <div class="part-info">
+      <div class="part-label violet">Parte 1 de 2</div>
+      <h2>Lo Fundamental — Para Entender<br>el 100% de Esta Estrategia</h2>
+      <p>8 módulos esenciales. Sin esto, cualquier conversación con asesores será confusa.</p>
+    </div>
+  </div>
+  <div class="part-divider"></div>
+</div>
+
+<div class="page">
+
+<!-- MÓDULO 1 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num v">01</div>
+    <div class="module-title-block">
+      <h3>¿Qué es un Trust y por qué existe?</h3>
+      <p>La idea central que cambia cómo piensas sobre la propiedad</p>
+    </div>
+    <span class="module-badge v">Base</span>
+  </div>
+  <div class="module-body">
+
+    <div class="analogy">
+      <div class="alabel">Analogía de partida</div>
+      <p>Imagina que le das tu casa a un amigo de confianza con instrucciones escritas: <strong>"adminístrala para que mis hijos puedan vivir en ella"</strong>. Legalmente ya no es tuya. Pero tampoco es del amigo. Está suspendida entre los dos, en beneficio de tus hijos. Eso es un trust.</p>
+    </div>
+
+    <div class="slabel">Los tres pilares conceptuales</div>
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="ctag v">Concepto 1</div>
+        <h4>La separación de propiedad legal y propiedad beneficiaria</h4>
+        <p>En el mundo anglosajón existe algo que el derecho latino no tiene: puedes ser el dueño "en papel" de algo sin tener derecho a beneficiarte de ello. El Trustee es dueño legal. El beneficiario tiene el derecho económico. Son dos cosas distintas.</p>
+      </div>
+      <div class="concept-card">
+        <div class="ctag g">Concepto 2</div>
+        <h4>La irrevocabilidad como herramienta de protección</h4>
+        <p>Cuando dices "esto ya no es mío, irrevocablemente", le estás diciendo a cualquier acreedor futuro: no hay nada que embargar aquí. La irrevocabilidad no es una pérdida — es una protección activa que requiere fe en el sistema jurídico del país anfitrión.</p>
+      </div>
+      <div class="concept-card">
+        <div class="ctag a">Concepto 3</div>
+        <h4>El Trustee como institución regulada</h4>
+        <p>No es un amigo. Es una empresa con licencia bancaria especial, supervisada por el estado. Equivale a un banco en cuanto a regulación y candados de seguridad, pero en lugar de guardar depósitos del público, guarda activos para beneficiarios específicos.</p>
+      </div>
+      <div class="concept-card">
+        <div class="ctag b">Concepto 4</div>
+        <h4>Por qué el derecho anglosajón lo permite</h4>
+        <p>El trust es una creación del common law (derecho anglosajón). Surgió en la Edad Media en Inglaterra para que los caballeros cruzados pudieran dejar sus propiedades en manos de administradores. El derecho civil (México, Francia, España) no tiene un equivalente directo.</p>
+      </div>
+    </div>
+
+    <div class="slabel">Las cuatro figuras — apréndalas de memoria</div>
+    <div class="terms-list">
+      <div class="term-row">
+        <span class="tname">Settlor / Aportante</span>
+        <span class="tdef">Quien crea el trust y aporta los activos. Firma el contrato con el Trustee. Define las reglas. Puede ser tú o tu mamá.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Trustee / Fiduciario</span>
+        <span class="tdef">La institución que administra. Es el dueño legal de los activos dentro del trust. Está regulado como un banco. En este caso: St. Joseph.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Beneficiario</span>
+        <span class="tdef">Quien recibe los beneficios económicos. Puede haber varios con reglas distintas entre ellos. No es dueño legal, pero tiene derechos económicos.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Protector</span>
+        <span class="tdef">El vigilante. Supervisa al Trustee. Al fallecer el aportante, es quien autoriza distribuciones. Debe ser un tercero imparcial.</span>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tlabel">Por qué esto importa para tu caso</div>
+      <p>Cuando entiendes esta separación legal/beneficiaria, entiendes por qué el SAT no puede simplemente "preguntarle al trust" quién eres. Necesita una orden judicial en EE.UU. para que el Trustee revele quién es el beneficiario. <strong>Tú no eres el propietario legal de nada dentro del trust — eres el beneficiario económico de algo que es legalmente del Trustee.</strong></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 2 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num v">02</div>
+    <div class="module-title-block">
+      <h3>Estructuras jurídicas internacionales — el menú completo</h3>
+      <p>LLC, CV, Fundación, SA: qué son, para qué sirve cada una y por qué existen diferencias</p>
+    </div>
+    <span class="module-badge v">Base</span>
+  </div>
+  <div class="module-body">
+
+    <div class="slabel">Las entidades que aparecen en tu estructura</div>
+    <div class="terms-list">
+      <div class="term-row">
+        <span class="tname">LLC (EE.UU.)</span>
+        <span class="tdef">Limited Liability Company. Sociedad con responsabilidad limitada, flexible fiscalmente. Puede ser transparente para efectos fiscales. En Delaware los socios no son información pública.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">CV (Países Bajos)</span>
+        <span class="tdef">Commanditaire Vennootschap. Equivale a una sociedad en comandita. Es la entidad operativa abajo de la fundación holandesa. Tiene personalidad jurídica y cuenta bancaria propia.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Stichting (Países Bajos)</span>
+        <span class="tdef">Fundación patrimonial holandesa. No es de caridad — es una entidad para administrar patrimonio privado. Tiene personalidad jurídica propia, como una empresa. Funciona parecido a un trust, pero bajo derecho germánico.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">S. de R.L. / S.A. (México)</span>
+        <span class="tdef">Las entidades que ya conoces. Son las que el Trust o la CV usarán como vehículo de inversión en México. Lo que cambia es quién es el accionista: en lugar de tú directamente, es la LLC o la CV.</span>
+      </div>
+    </div>
+
+    <div class="slabel">Diferencia clave: ¿tiene personalidad jurídica?</div>
+    <div class="mini-compare">
+      <div class="mc-col vc">
+        <div class="mc-title">Sin personalidad jurídica (Trust)</div>
+        <ul>
+          <li><span>📋</span><span>Es un contrato, no una empresa</span></li>
+          <li><span>🔄</span><span>Al cambiar Trustee, hay que cambiar papelería en activos</span></li>
+          <li><span>🏦</span><span>Usa la cuenta bancaria del Trustee (no necesita propia)</span></li>
+          <li><span>⚡</span><span>Más sencillo de implementar</span></li>
+        </ul>
+      </div>
+      <div class="mc-col ac">
+        <div class="mc-title">Con personalidad jurídica (Fundación)</div>
+        <ul>
+          <li><span>🏢</span><span>Es una entidad legal reconocida</span></li>
+          <li><span>🔄</span><span>Cambiar junta directiva no afecta activos</span></li>
+          <li><span>🏦</span><span>Necesita cuenta bancaria propia (mín. $100k)</span></li>
+          <li><span>🛡️</span><span>Más resistente a ataques legales internacionales</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="analogy">
+      <div class="alabel">Analogía para recordarlo</div>
+      <p>Un trust es como una mochila con instrucciones: le dices al portador (Trustee) qué hacer con lo que hay dentro. Si cambias de portador, tienes que volver a cargar la mochila. Una fundación es como una caja fuerte con nombre propio: <strong>aunque cambies a quien tiene la llave, la caja sigue siendo la misma y todo lo que está adentro sigue siendo de la caja.</strong></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 3 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num v">03</div>
+    <div class="module-title-block">
+      <h3>Fiscalidad internacional — los conceptos que debes dominar</h3>
+      <p>FATCA, CRS, residencia fiscal, doble tributación: qué son y cómo afectan tu estructura</p>
+    </div>
+    <span class="module-badge v">Base</span>
+  </div>
+  <div class="module-body">
+
+    <div class="terms-list">
+      <div class="term-row">
+        <span class="tname">FATCA</span>
+        <span class="tdef">Foreign Account Tax Compliance Act. Ley americana que obliga a bancos de todo el mundo a reportar cuentas de ciudadanos/residentes americanos al IRS. Clave: EE.UU. reporta hacia afuera sobre americanos, no sobre mexicanos con estructuras americanas.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">CRS</span>
+        <span class="tdef">Common Reporting Standard. Equivalente global de FATCA, impulsado por la OCDE. 100+ países intercambian información automáticamente. México está incluido. Si tienes una cuenta en Europa a tu nombre, se reporta a México automáticamente.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Residencia fiscal</span>
+        <span class="tdef">El país donde pagas impuestos por tu renta mundial. Si eres residente fiscal en México, México tiene derecho a gravar todos tus ingresos, sin importar en qué país se generaron.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Doble tributación</span>
+        <span class="tdef">Cuando dos países quieren cobrar impuestos sobre el mismo ingreso. Los tratados de doble tributación (TDT) son acuerdos entre países para evitar esto. México tiene TDTs con ~60 países, incluyendo EE.UU. y Países Bajos.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Impuesto sucesorio (estate tax)</span>
+        <span class="tdef">Impuesto que cobra EE.UU. sobre activos que un no-residente deja en EE.UU. al morir. Tasa: hasta 40%. Con el Trust, los activos no son tuyos legalmente, por lo que no generan este impuesto al fallecer. Esa es una ventaja fiscal real de la estructura.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Origen de fondos / KYC</span>
+        <span class="tdef">Know Your Customer. Todo banco e institución financiera está obligado a verificar de dónde viene el dinero que le depositas. No es opcional ni negociable. La documentación que piden es: identificación, comprobante de domicilio, estados de cuenta y justificación del origen de los fondos.</span>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tlabel">Lo que esto significa para tu caso concreto</div>
+      <p>Tu trust en S. Dakota, con el Trustee como titular de la cuenta, <strong>no activa el CRS hacia México</strong> porque el Trustee es una entidad americana y EE.UU. no participa en CRS. Si abrieras la misma cuenta en Europa a nombre de la CV, sí se reportaría. Eso explica por qué Felipe insiste en usar bancos americanos incluso para la estructura holandesa.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 4 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num v">04</div>
+    <div class="module-title-block">
+      <h3>Protección patrimonial — la lógica jurídica detrás</h3>
+      <p>Por qué poner activos en un trust te protege y cuáles son los límites reales</p>
+    </div>
+    <span class="module-badge v">Base</span>
+  </div>
+  <div class="module-body">
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="ctag v">Principio 1</div>
+        <h4>Solo puedes embargar lo que alguien posee</h4>
+        <p>Si legalmente no eres el dueño de un activo, ningún juez puede ordenar que se te embargue. El trust crea esa separación: el Trustee es el dueño legal, tú eres solo el beneficiario.</p>
+      </div>
+      <div class="concept-card">
+        <div class="ctag g">Principio 2</div>
+        <h4>La irrevocabilidad debe ser real, no cosmética</h4>
+        <p>Si tienes acceso directo diario, das instrucciones constantes y el trust es básicamente una cuenta tuya con nombre diferente, un juez puede "perforar el velo" y declarar que de facto los activos son tuyos. Distancia real = protección real.</p>
+      </div>
+      <div class="concept-card">
+        <div class="ctag a">Principio 3</div>
+        <h4>El período de 2 años (fraudulent conveyance)</h4>
+        <p>Si aportas activos a un trust irrevocable y dentro de los 2 años siguientes se prueba que defraudaste a alguien, los activos pueden reclamarse. Esto existe para que no uses el trust como herramienta de fraude. Después de 2 años: protección completa.</p>
+      </div>
+      <div class="concept-card">
+        <div class="ctag b">Principio 4</div>
+        <h4>Por qué Dakota del Sur y no otro estado</h4>
+        <p>S. Dakota tiene las leyes de trust más favorables de EE.UU.: período de irrevocabilidad de 2 años (otros estados tienen 3–4), permite self-settled trusts, regula al Trustee como banco. Grandes fondos como Carnegie y Eros Canegie operan aquí.</p>
+      </div>
+    </div>
+
+    <div class="slabel">Escenario de ataque — cómo funciona la protección</div>
+    <div class="flow-diagram">
+      <div class="fd-node v">
+        <div class="fn-label">Alguien demanda en México</div>
+        <div class="fn-sub">Litigio contra ti o tus empresas mexicanas</div>
+      </div>
+      <div class="fd-arrow"><div class="fd-arrow-line"></div><div class="fd-arrow-head"></div></div>
+      <div class="fd-label">El juez mexicano busca activos embargables</div>
+      <div class="fd-node dark">
+        <div class="fn-label">Ve una LLC americana como accionista</div>
+        <div class="fn-sub">No ve a quién pertenece la LLC</div>
+      </div>
+      <div class="fd-arrow"><div class="fd-arrow-line"></div><div class="fd-arrow-head"></div></div>
+      <div class="fd-label">Para ir más allá necesita proceso judicial en EE.UU.</div>
+      <div class="fd-node a">
+        <div class="fn-label">Demanda en tribunal americano</div>
+        <div class="fn-sub">Costoso, lento, resultado incierto</div>
+      </div>
+      <div class="fd-arrow"><div class="fd-arrow-line"></div><div class="fd-arrow-head"></div></div>
+      <div class="fd-label">Si lo logra, ve que la LLC pertenece al Trust</div>
+      <div class="fd-node g">
+        <div class="fn-label">Debe demandar al Trust en S. Dakota</div>
+        <div class="fn-sub">Otra jurisdicción, otra demanda, más costos</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 5 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num v">05</div>
+    <div class="module-title-block">
+      <h3>Derecho sucesorio — cómo pasan los activos al morir</h3>
+      <p>Testamentos, proceso probatorio, beneficiarios nombrados y distribución automática</p>
+    </div>
+    <span class="module-badge v">Base</span>
+  </div>
+  <div class="module-body">
+
+    <div class="terms-list">
+      <div class="term-row">
+        <span class="tname">Proceso Probate</span>
+        <span class="tdef">Proceso judicial testamentario en EE.UU. Si mueres sin nombrar beneficiarios en el trust, el tribunal determina quiénes son. Puede tardar años y cuesta dinero. Con un trust bien estructurado con beneficiarios nombrados, se evita completamente.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Distribución automática</span>
+        <span class="tdef">Si nombraste beneficiarios específicos con reglas claras, al fallecer el Trustee solo necesita el certificado de defunción para proceder. El protector confirma. El proceso dura semanas, no años.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Beneficiarios legales (intestate)</span>
+        <span class="tdef">Si no nombras a nadie, la ley del domicilio del fallecido determina quiénes heredan. En México: cónyuge y descendientes. Sin testamento claro, hay pleitos familiares garantizados.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Distribución in-kind</span>
+        <span class="tdef">Cuando un activo es ilíquido (inmueble, acciones de empresa privada), en lugar de venderlo para repartir el dinero, se transfieren las acciones o el título directamente al beneficiario. Evita ventas forzadas en mal momento.</span>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tlabel">La decisión de sucesión más importante</div>
+      <p>Nombrar beneficiarios con reglas claras desde el inicio no es un trámite burocrático — es la diferencia entre que tus hijos hereden sin pelear y que pasen 5 años en litigios. <strong>Define desde el primer día: ¿qué porcentaje a quién, bajo qué condiciones?</strong> El trust lo ejecuta automáticamente.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 6 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num v">06</div>
+    <div class="module-title-block">
+      <h3>El sistema bancario internacional para estructuras complejas</h3>
+      <p>Por qué no cualquier banco sirve, y cómo se mueve el dinero en estas estructuras</p>
+    </div>
+    <span class="module-badge v">Base</span>
+  </div>
+  <div class="module-body">
+
+    <div class="checklist">
+      <li><span class="ico">🏦</span><span><strong>Cuenta escrow del Trustee:</strong> No es una cuenta bancaria tuya. Es una cuenta de la institución Trustee donde se segregan tus activos del resto de sus clientes. Es la forma más limpia de mover fondos en un trust americano.</span></li>
+      <li><span class="ico">💼</span><span><strong>Compliance bancario:</strong> Los bancos que operan con estructuras complejas tienen departamentos especializados que entienden que tu LLC holandesa con trust detrás no es lavado de dinero. Los bancos "normales" no entienden esto y rechazan la apertura de cuenta.</span></li>
+      <li><span class="ico">💸</span><span><strong>Transmisor de dinero regulado:</strong> Una empresa que, como Western Union pero especializada, recibe pesos en México y paga dólares a la CV en EE.UU. desde una cuenta concentradora. Rompe la traza directa entre tu banco y la estructura internacional.</span></li>
+      <li><span class="ico">🌐</span><span><strong>Mínimos bancarios reales:</strong> Bancos pequeños $100k, medianos $1M, JP Morgan $10M. Estos son mínimos de inversión, no de saldo inactivo. El dinero se invierte y genera rendimiento mientras está ahí.</span></li>
+      <li><span class="ico">📊</span><span><strong>Custodio vs. banco:</strong> Algunos bancos ofrecen solo custodia (guardar y ejecutar órdenes de compra/venta). Otros ofrecen gestión activa. Para mercados públicos (acciones, bonos) un banco custodio puede ser suficiente.</span></li>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 7 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num v">07</div>
+    <div class="module-title-block">
+      <h3>El SAT y las obligaciones fiscales en México</h3>
+      <p>Qué debes declarar, cómo se integra la estructura con tu fiscalidad mexicana</p>
+    </div>
+    <span class="module-badge v">Base</span>
+  </div>
+  <div class="module-body">
+
+    <div class="concept-grid">
+      <div class="concept-card">
+        <div class="ctag v">Obligación 1</div>
+        <h4>Declaración de cuentas en el extranjero</h4>
+        <p>Si tienes una cuenta bancaria en el extranjero como persona física, debes declararla al SAT. Ojo: el trust no es una cuenta tuya. Es del Trustee. Pero esto depende de cómo se clasifique tu relación con el trust en México.</p>
+      </div>
+      <div class="concept-card">
+        <div class="ctag g">Obligación 2</div>
+        <h4>Ingresos distribuidos del trust</h4>
+        <p>Cuando el trust te distribuye dinero, ese ingreso puede ser gravable en México como ingreso en el extranjero. La estructura minimiza distribuciones directas al reinvertir en proyectos mexicanos vía la LLC.</p>
+      </div>
+      <div class="concept-card">
+        <div class="ctag a">Obligación 3</div>
+        <h4>La empresa mexicana opera normal</h4>
+        <p>Tu empresa en México sigue siendo mexicana, paga impuestos en México normalmente. Solo cambia quién es el accionista (la LLC en lugar de tú directamente). El SAT puede auditar la empresa sin problema.</p>
+      </div>
+      <div class="concept-card">
+        <div class="ctag b">Alerta 4</div>
+        <h4>El problema de la Holding</h4>
+        <p>Si una empresa recibe millones pero solo factura intereses, el SAT puede señalar ingresos sin comprobante. Esto no lo resuelve ninguna estructura internacional — se resuelve con asesoría fiscal local. Debe arreglarse primero.</p>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tlabel">Regla de oro</div>
+      <p>La estructura internacional protege activos. <strong>No elimina obligaciones fiscales mexicanas sobre lo que ya está en México.</strong> Si tienes problemas fiscales en México, la estructura internacional no te protege de ellos — solo protege los activos que están afuera de México.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 8 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num v">08</div>
+    <div class="module-title-block">
+      <h3>Mapa mental: cómo leer y evaluar cualquier estructura patrimonial</h3>
+      <p>El framework de 5 preguntas que usan los expertos para analizar cualquier propuesta</p>
+    </div>
+    <span class="module-badge v">Base</span>
+  </div>
+  <div class="module-body">
+
+    <div class="roadmap">
+      <div class="rm-step">
+        <div class="rm-dot v">1</div>
+        <div class="rm-content">
+          <h4>¿Cuál es el objetivo principal?</h4>
+          <p>Protección patrimonial, optimización fiscal, planificación sucesoria, acceso a inversiones internacionales o privacidad. Cada objetivo lleva a estructuras distintas. El error más común es mezclar todos los objetivos sin priorizar.</p>
+          <div class="rm-tags">
+            <span class="rm-tag">Protección</span>
+            <span class="rm-tag">Optimización fiscal</span>
+            <span class="rm-tag">Sucesión</span>
+            <span class="rm-tag">Privacidad</span>
+          </div>
+        </div>
+      </div>
+      <div class="rm-step">
+        <div class="rm-dot v">2</div>
+        <div class="rm-content">
+          <h4>¿Dónde están los activos hoy y dónde estarán mañana?</h4>
+          <p>Activos en México, activos en EE.UU., bienes raíces, acciones de empresas privadas, cuentas bancarias — cada tipo de activo en cada jurisdicción tiene su tratamiento específico. No hay una solución universal.</p>
+        </div>
+      </div>
+      <div class="rm-step">
+        <div class="rm-dot v">3</div>
+        <div class="rm-content">
+          <h4>¿Quién puede atacar esta estructura y por dónde?</h4>
+          <p>Litigantes civiles, el SAT, autoridades penales, divorcios, socios en disputa. Cada amenaza usa herramientas distintas. Una buena estructura tiene respuesta para cada una.</p>
+        </div>
+      </div>
+      <div class="rm-step">
+        <div class="rm-dot a">4</div>
+        <div class="rm-content">
+          <h4>¿Cuánto control operativo necesitas retener?</h4>
+          <p>A más control directo, menos protección. Si tú das instrucciones diarias al Trustee, un juez puede argumentar que de facto los activos son tuyos. El balance entre control y protección es la tensión central de toda estructura patrimonial.</p>
+        </div>
+      </div>
+      <div class="rm-step">
+        <div class="rm-dot g">5</div>
+        <div class="rm-content">
+          <h4>¿Cuál es el costo total (implementación + operación + cumplimiento)?</h4>
+          <p>Honorarios del Trustee, contabilidad, reportes anuales, mantenimiento de la LLC, cuenta bancaria, asesoría legal. Una estructura que cuesta $30k al año necesita proteger activos de varios millones para justificarse.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Medidor de dominio parte 1 -->
+<div class="mastery-section">
+  <h3>¿Cómo sabrás que dominaste la Parte 1?</h3>
+  <div class="mastery-item">
+    <div class="mastery-row">
+      <span class="mastery-name">Puedo explicar qué es un trust en 30 segundos</span>
+      <span class="mastery-pct">Módulo 01</span>
+    </div>
+    <div class="mastery-bar"><div class="mastery-fill fill-v" style="width:90%"></div></div>
+  </div>
+  <div class="mastery-item">
+    <div class="mastery-row">
+      <span class="mastery-name">Entiendo por qué el SAT no puede ver quién está detrás del trust</span>
+      <span class="mastery-pct">Módulos 03 + 04</span>
+    </div>
+    <div class="mastery-bar"><div class="mastery-fill fill-v" style="width:85%"></div></div>
+  </div>
+  <div class="mastery-item">
+    <div class="mastery-row">
+      <span class="mastery-name">Sé cuándo aplica el período de 2 años y por qué existe</span>
+      <span class="mastery-pct">Módulo 04</span>
+    </div>
+    <div class="mastery-bar"><div class="mastery-fill fill-a" style="width:80%"></div></div>
+  </div>
+  <div class="mastery-item">
+    <div class="mastery-row">
+      <span class="mastery-name">Puedo leer una estructura y decir quién es cada figura</span>
+      <span class="mastery-pct">Módulo 01 + 08</span>
+    </div>
+    <div class="mastery-bar"><div class="mastery-fill fill-g" style="width:88%"></div></div>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+
+<!-- ═══════════════════════════════════════
+     PARTE 2
+═══════════════════════════════════════ -->
+<div class="part-banner">
+  <div class="part-header">
+    <div class="part-number amber">II</div>
+    <div class="part-info">
+      <div class="part-label amber">Parte 2 de 2</div>
+      <h2>Lo Avanzado — Para Hacer Aportes<br>y Pensar Más Allá de la Estructura</h2>
+      <p>Domina esto y podrás co-diseñar estrategias, no solo seguirlas.</p>
+    </div>
+  </div>
+  <div class="part-divider"></div>
+</div>
+
+<div class="page">
+
+<!-- MÓDULO 9 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num a">09</div>
+    <div class="module-title-block">
+      <h3>Jurisdicciones avanzadas y cuándo usarlas</h3>
+      <p>Más allá de EE.UU. y Holanda: Singapur, Luxemburgo, Islas Caimán, Hong Kong y cuándo cada uno conviene</p>
+    </div>
+    <span class="module-badge a">Avanzado</span>
+  </div>
+  <div class="module-body">
+
+    <div class="slabel">El mapa de jurisdicciones y sus casos de uso</div>
+    <div class="adv-grid">
+      <div class="adv-card">
+        <div class="atag v">Dakota del Sur / Delaware — EE.UU.</div>
+        <h4>Protección + simplicidad operativa</h4>
+        <p>Ideal cuando la inversión principal sigue siendo en México o EE.UU. Alta certeza jurídica. Sin CRS. Trustee regulado como banco. <strong>Caso de uso: tu situación actual.</strong></p>
+      </div>
+      <div class="adv-card">
+        <div class="atag a">Países Bajos (Holanda)</div>
+        <h4>Holding internacional + red de tratados</h4>
+        <p>Ideal para quien tiene inversiones en múltiples jurisdicciones. Holanda tiene tratados de doble tributación con más de 90 países. <strong>Caso de uso: cuando tu portafolio internacional sea complejo.</strong></p>
+      </div>
+      <div class="adv-card">
+        <div class="atag g">Singapur</div>
+        <h4>Expansión hacia Asia</h4>
+        <p>Centro financiero de Asia. Family offices, fondos privados, bienes raíces en Asia-Pacífico. Alta estabilidad política y jurídica. <strong>Caso de uso: si inviertes en hoteles, inmobiliario o empresas en Asia.</strong></p>
+      </div>
+      <div class="adv-card">
+        <div class="atag b">Luxemburgo</div>
+        <h4>Fondos de inversión europeos</h4>
+        <p>El centro de fondos de inversión de Europa. Si quieres acceder a capital europeo institucional o estructurar un fondo propio, Luxemburgo es el punto de entrada. <strong>Caso de uso: patrimonio de $10M+ con perfil institucional.</strong></p>
+      </div>
+      <div class="adv-card">
+        <div class="atag r">Islas Caimán</div>
+        <h4>Fondos de capital privado y hedge funds</h4>
+        <p>El vehículo estándar para fondos de capital privado, venture capital y hedge funds globales. No es para patrimonio personal — es para co-inversión institucional. <strong>Caso de uso: si lanzas un fondo de inversión.</strong></p>
+      </div>
+      <div class="adv-card">
+        <div class="atag v">Hong Kong</div>
+        <h4>Inversión en China continental</h4>
+        <p>El puente legal y financiero hacia China. Si tienes o quieres tener inversiones en China, Hong Kong es el vehículo estándar para hacerlo desde afuera. <strong>Caso de uso: Felipe lo mencionó para inversión en Asia.</strong></p>
+      </div>
+    </div>
+
+    <div class="tip">
+      <div class="tlabel">El principio de elegir jurisdicción</div>
+      <p>No se elige por privacidad ni por costos — se elige por <strong>dónde están los activos + qué tratados fiscales necesitas + qué tan sofisticados son tus abogados locales</strong>. Una estructura en Luxemburgo mal asesorada es peor que una en Delaware bien estructurada.</p>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 10 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num a">10</div>
+    <div class="module-title-block">
+      <h3>Planificación sucesoria avanzada — diseñar reglas para el patrimonio</h3>
+      <p>Cómo un trust puede programar el comportamiento del dinero para generaciones futuras</p>
+    </div>
+    <span class="module-badge a">Avanzado</span>
+  </div>
+  <div class="module-body">
+
+    <div class="checklist">
+      <li><span class="ico">🔀</span><span><strong>Trusts per stirpes:</strong> Las distribuciones se reparten automáticamente por ramas familiares. Si uno de tus hijos fallece antes que tú, su parte va a sus hijos (tus nietos) y no se redistribuye entre los vivos.</span></li>
+      <li><span class="ico">⏳</span><span><strong>Dynasty trusts:</strong> Trusts diseñados para durar múltiples generaciones sin extinguirse. Protegen el capital de la dilapidación generacional. S. Dakota permite dynasty trusts sin límite de tiempo.</span></li>
+      <li><span class="ico">📜</span><span><strong>Letter of wishes (carta de deseos):</strong> Documento privado no vinculante donde el aportante comunica sus intenciones al Trustee. No es parte del contrato pero guía al Trustee en decisiones discrecionales. Es el mecanismo de control informal más poderoso.</span></li>
+      <li><span class="ico">🎓</span><span><strong>Distribuciones condicionadas:</strong> Puedes programar que el trust distribuya fondos solo bajo ciertas condiciones: al terminar la universidad, al cumplir 30 años, solo para comprar casa, etc. Es diseño del comportamiento del capital.</span></li>
+      <li><span class="ico">🔒</span><span><strong>Protección ante divorcios:</strong> Los activos en un trust irrevocable generalmente no se consideran parte de la sociedad conyugal porque técnicamente no son tuyos. Esto protege el patrimonio familiar en caso de divorcio de cualquier beneficiario.</span></li>
+      <li><span class="ico">⚖️</span><span><strong>Equalización vs. preferencia:</strong> Puedes diseñar distribuciones desiguales con justificación. Por ejemplo, que un hijo que tiene discapacidad reciba más, o que quien administre las empresas familiares reciba beneficios adicionales por esa función.</span></li>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 11 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num a">11</div>
+    <div class="module-title-block">
+      <h3>Estructuras holding — cuando tienes inversiones en múltiples países</h3>
+      <p>Cómo se construye una estructura de capas para patrimonio internacional diversificado</p>
+    </div>
+    <span class="module-badge a">Avanzado</span>
+  </div>
+  <div class="module-body">
+
+    <div class="slabel">Arquitectura de una holding internacional típica</div>
+    <div class="flow-diagram">
+      <div class="fd-node v">
+        <div class="fn-label">Trust / Fundación</div>
+        <div class="fn-sub">Capa de protección y sucesión — nivel 1</div>
+      </div>
+      <div class="fd-arrow"><div class="fd-arrow-line"></div><div class="fd-arrow-head"></div></div>
+      <div class="fd-node a">
+        <div class="fn-label">Holding Central (Holanda / Luxemburgo)</div>
+        <div class="fn-sub">Maximiza red de tratados fiscales — nivel 2</div>
+      </div>
+      <div class="fd-arrow"><div class="fd-arrow-line"></div><div class="fd-arrow-head"></div></div>
+      <div class="fd-node dark" style="display:flex;gap:10px;justify-content:center;padding:12px;">
+        <div style="flex:1;background:rgba(79,196,154,.08);border:1px solid rgba(79,196,154,.2);border-radius:8px;padding:8px;text-align:center;">
+          <div style="font-size:12px;font-weight:600;color:var(--g1l);">LLC EE.UU.</div>
+          <div style="font-size:11px;color:var(--text3);">Inversiones MX</div>
+        </div>
+        <div style="flex:1;background:rgba(91,163,232,.08);border:1px solid rgba(91,163,232,.2);border-radius:8px;padding:8px;text-align:center;">
+          <div style="font-size:12px;font-weight:600;color:var(--b1);">HK Co.</div>
+          <div style="font-size:11px;color:var(--text3);">Inversiones Asia</div>
+        </div>
+        <div style="flex:1;background:rgba(232,149,90,.08);border:1px solid rgba(232,149,90,.2);border-radius:8px;padding:8px;text-align:center;">
+          <div style="font-size:12px;font-weight:600;color:var(--a1l);">SPV Europa</div>
+          <div style="font-size:11px;color:var(--text3);">Bienes raíces</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="adv-grid">
+      <div class="adv-card">
+        <div class="atag g">¿Para qué sirve la holding central?</div>
+        <h4>Consolidar y optimizar</h4>
+        <p>Recibe dividendos de todas las subsidiarias. Aplica los tratados fiscales de su país para minimizar retenciones. Reinvierte capital de forma eficiente entre jurisdicciones. <strong>Es el cerebro fiscal de la estructura.</strong></p>
+      </div>
+      <div class="adv-card">
+        <div class="atag a">¿Cuándo necesitas esto?</div>
+        <h4>Cuando el patrimonio escala</h4>
+        <p>Con una empresa en México, no necesitas holding. Cuando tienes inversiones en 3+ jurisdicciones, el costo de la holding se justifica por los ahorros fiscales y la simplificación operativa. Umbral típico: $5–10M de activos internacionales.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 12 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num a">12</div>
+    <div class="module-title-block">
+      <h3>Family Office — gestión profesional del patrimonio familiar</h3>
+      <p>Qué es, cuándo tiene sentido y cómo se estructura</p>
+    </div>
+    <span class="module-badge a">Avanzado</span>
+  </div>
+  <div class="module-body">
+
+    <div class="terms-list">
+      <div class="term-row">
+        <span class="tname">Single Family Office</span>
+        <span class="tdef">Una empresa cuya única función es administrar el patrimonio de UNA familia. Tiene equipo propio: director de inversiones, abogado, contador, analistas. Costo mínimo: $1–2M al año. Tiene sentido con patrimonios de $100M+.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Multi Family Office</span>
+        <span class="tdef">Un SFO que decide abrir sus servicios a otras familias para dividir costos. Cada familia mantiene total privacidad. Permite acceso a las capacidades de un SFO con patrimonios desde $10–20M. Lo que ofrece Felipe se acerca a este modelo.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Funciones del Family Office</span>
+        <span class="tdef">Gestión de inversiones, coordinación fiscal (múltiples países), planificación sucesoria, gestión de bienes raíces, seguros, educación financiera de la siguiente generación, gobierno familiar y resolución de conflictos entre herederos.</span>
+      </div>
+    </div>
+
+    <div class="analogy">
+      <div class="alabel">Cómo entender el family office</div>
+      <p>Si tienes una empresa grande, tienes un equipo de finanzas, legal y operaciones. Un family office es exactamente eso, pero para tu patrimonio personal. <strong>Es profesionalizar la gestión del capital familiar de la misma manera en que profesionalizas la gestión de una empresa.</strong></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 13 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num a">13</div>
+    <div class="module-title-block">
+      <h3>Inversiones alternativas internacionales desde la estructura</h3>
+      <p>Bienes raíces, private equity, deuda privada: cómo invertir desde el trust en activos no tradicionales</p>
+    </div>
+    <span class="module-badge a">Avanzado</span>
+  </div>
+  <div class="module-body">
+
+    <div class="adv-grid">
+      <div class="adv-card">
+        <div class="atag v">Bienes raíces en EE.UU.</div>
+        <h4>Por qué necesitas una LLC local</h4>
+        <p>Si la CV holandesa compra un departamento en Miami directamente, para venderlo necesitas poderes apostillados entre notarios de dos países. Con una LLC local debajo, todo es un trámite doméstico. <strong>Siempre agrega una LLC americana para bienes raíces en EE.UU.</strong></p>
+      </div>
+      <div class="adv-card">
+        <div class="atag g">Private equity y co-inversiones</div>
+        <h4>Estructura de SPV</h4>
+        <p>Para co-inversiones en empresas privadas se usa un SPV (Special Purpose Vehicle) — una LLC o LP creada solo para esa inversión. Se hace debajo del Trust o la holding. Al salir de la inversión, el SPV se disuelve.</p>
+      </div>
+      <div class="adv-card">
+        <div class="atag a">Acciones y bonos públicos</div>
+        <h4>Cuenta de corretaje del trust</h4>
+        <p>La cuenta escrow del Trustee puede tener un mandato de inversión en mercados públicos. Defines perfil de riesgo, el banco o custodio gestiona. Rendimientos se acumulan dentro del trust sin necesidad de distribución.</p>
+      </div>
+      <div class="adv-card">
+        <div class="atag b">Securitización de activos privados</div>
+        <h4>Cómo llevar tu empresa a un banco</h4>
+        <p>Felipe lo mencionó: convertir tu participación en una empresa privada en algo que el banco pueda "custodiar como si fuera una acción de Apple". Permite usar esa participación como colateral o invertirla desde el banco. Proceso complejo, aplica para activos de varios millones.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 14 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num a">14</div>
+    <div class="module-title-block">
+      <h3>Gobierno corporativo y blindaje jurídico avanzado</h3>
+      <p>Cómo diseñar los estatutos de las entidades para maximizar la protección y minimizar el riesgo operativo</p>
+    </div>
+    <span class="module-badge a">Avanzado</span>
+  </div>
+  <div class="module-body">
+
+    <div class="checklist">
+      <li><span class="ico">📋</span><span><strong>Límites de poder en estatutos:</strong> En los artículos de la LLC puedes definir que cualquier pago mayor a $X requiere aprobación del accionista (Trust). Esto acota lo que el director puede hacer sin tu conocimiento, sin que tú seas el director.</span></li>
+      <li><span class="ico">🔐</span><span><strong>Cláusulas de distribución restringida:</strong> El trust puede tener cláusulas que prohíban distribuciones durante los primeros N años, o que limiten distribuciones a propósitos específicos (educación, salud, inversión). Esto lo hace más resistente a presiones externas.</span></li>
+      <li><span class="ico">🌀</span><span><strong>Perforación del velo corporativo:</strong> El mayor riesgo jurídico. Si una empresa es el alter ego de una persona (mismas cuentas, mismas decisiones, sin formalidades), un juez puede ignorar la separación jurídica. La formalidad no es burocracia — es la defensa.</span></li>
+      <li><span class="ico">📊</span><span><strong>Substance requirements:</strong> Cada vez más jurisdicciones exigen que las entidades tengan "sustancia real" — empleados, oficina, decisiones que se toman ahí. Una LLC de papel sin actividad real puede ser desconocida por autoridades fiscales.</span></li>
+      <li><span class="ico">⚖️</span><span><strong>Anti-duress clauses:</strong> Cláusulas que instruyen al Trustee a no seguir instrucciones que parezcan estar bajo coacción. Si alguien te secuestra y te fuerza a dar instrucciones, el Trustee está obligado a no ejecutarlas. Exótico pero real en estructuras de patrimonio muy alto.</span></li>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 15 -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num a">15</div>
+    <div class="module-title-block">
+      <h3>Tendencias regulatorias globales — lo que viene</h3>
+      <p>Hacia dónde va la regulación internacional y cómo anticiparte</p>
+    </div>
+    <span class="module-badge a">Avanzado</span>
+  </div>
+  <div class="module-body">
+
+    <div class="adv-grid">
+      <div class="adv-card">
+        <div class="atag r">Registros de beneficiarios finales</div>
+        <h4>El mundo se vuelve más transparente</h4>
+        <p>Europa, y cada vez más países latinoamericanos, están creando registros públicos o semi-públicos de quién es el beneficiario final de cada empresa. La UE ya lo tiene. México avanza hacia esto. <strong>Las estructuras bien diseñadas hoy deben sobrevivir 10 años de regulación más estricta.</strong></p>
+      </div>
+      <div class="adv-card">
+        <div class="atag a">Impuesto global mínimo (Pillar Two)</div>
+        <h4>El acuerdo de la OCDE que cambia todo</h4>
+        <p>130+ países acordaron un impuesto corporativo mínimo del 15% global. Elimina el incentivo de tener empresas en paraísos fiscales con tasa 0%. Las estructuras del futuro no se diseñan para pagar 0% — se diseñan para pagar el mínimo correcto y poder demostrarlo.</p>
+      </div>
+      <div class="adv-card">
+        <div class="atag v">Substance over form</div>
+        <h4>Las autoridades atacan estructuras "de papel"</h4>
+        <p>Una LLC en Delaware sin empleados, sin operaciones reales, cuyo único propósito es "separar" al dueño de sus activos, es cada vez más vulnerable. El futuro es estructuras con sustancia económica real.</p>
+      </div>
+      <div class="adv-card">
+        <div class="atag g">Cripto y activos digitales</div>
+        <h4>La nueva frontera patrimonial</h4>
+        <p>Los trusts están empezando a administrar criptomonedas y activos digitales. El reto es la custodia (¿quién tiene las llaves privadas?). S. Dakota ya tiene legislación específica para trusts digitales. <strong>Tema a seguir de cerca para los próximos 5 años.</strong></p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- MÓDULO 16 — RECURSOS -->
+<div class="module">
+  <div class="module-header">
+    <div class="module-num a">16</div>
+    <div class="module-title-block">
+      <h3>Recursos para profundizar — tu biblioteca de experto</h3>
+      <p>Libros, conceptos y fuentes para llevar el conocimiento al siguiente nivel</p>
+    </div>
+    <span class="module-badge a">Avanzado</span>
+  </div>
+  <div class="module-body">
+
+    <div class="slabel">Libros fundamentales</div>
+    <div class="resources-grid">
+      <div class="res-card">
+        <div class="rtype book">📚 Libro</div>
+        <h5>The Complete Guide to Offshore Trusts</h5>
+        <p>Barry Engel. El manual de referencia para estructuras de trust internacionales. Cubre jurisdicciones, casos legales y diseño de documentos constitutivos.</p>
+      </div>
+      <div class="res-card">
+        <div class="rtype book">📚 Libro</div>
+        <h5>Asset Protection: Concepts and Strategies</h5>
+        <p>Jay Adkisson. El libro más práctico sobre protección patrimonial en EE.UU. Explica con casos reales qué funciona y qué no.</p>
+      </div>
+      <div class="res-card">
+        <div class="rtype book">📚 Libro</div>
+        <h5>International Tax Planning</h5>
+        <p>Any edition of the IBFD publication. La biblia técnica de planificación fiscal internacional. Denso pero completo.</p>
+      </div>
+      <div class="res-card">
+        <div class="rtype concept">💡 Concepto</div>
+        <h5>Penetrating the Corporate Veil</h5>
+        <p>Estudia jurisprudencia sobre casos en que los jueces ignoraron la separación jurídica de entidades. Te enseña qué NO hacer.</p>
+      </div>
+      <div class="res-card">
+        <div class="rtype concept">💡 Concepto</div>
+        <h5>OECD BEPS Project</h5>
+        <p>Base Erosion and Profit Shifting. El marco regulatorio que está rediseñando la fiscalidad internacional. Leer los reportes del Pillar One y Two.</p>
+      </div>
+      <div class="res-card">
+        <div class="rtype web">🌐 Recurso</div>
+        <h5>IBFD Tax Research Platform</h5>
+        <p>La base de datos más completa de derecho fiscal internacional. Suscripción costosa pero usada por todos los despachos serios.</p>
+      </div>
+    </div>
+
+    <div class="slabel">Conceptos técnicos para buscar y estudiar</div>
+    <div class="terms-list">
+      <div class="term-row">
+        <span class="tname">Controlled Foreign Corporation</span>
+        <span class="tdef">CFC. Las reglas que EE.UU. usa para gravar a sus ciudadanos con empresas extranjeras. No te aplica directamente pero debes entenderlas si tienes socios americanos.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Thin capitalization rules</span>
+        <span class="tdef">Reglas que limitan cuánta deuda (vs. capital) puede tener una empresa para deducir intereses. Si tu LLC presta dinero a tu empresa mexicana y cobra intereses, el SAT puede atacar esto.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Transfer pricing</span>
+        <span class="tdef">Precios de transferencia. Cuando empresas relacionadas se venden bienes/servicios entre sí, los precios deben ser de mercado (arm's length). Es una de las áreas de mayor auditoría del SAT en grupos empresariales.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Substance over form doctrine</span>
+        <span class="tdef">Doctrina que permite a las autoridades fiscales ignorar la forma legal de una transacción y gravar según su sustancia económica real. La defensa: que cada estructura tenga propósito de negocio legítimo.</span>
+      </div>
+      <div class="term-row">
+        <span class="tname">Anti-avoidance provisions</span>
+        <span class="tdef">Normas antiabuso. Cada país tiene las suyas. México tiene las REFIPRE (Regímenes Fiscales Preferentes) y la cláusula general antiabuso. Debes saber cómo las activa tu estructura.</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ROADMAP FINAL -->
+<div class="mastery-section" style="background: linear-gradient(135deg, var(--bg2), var(--card)); border-color: rgba(232,149,90,.2);">
+  <h3 style="color: var(--gold2);">Tu Ruta de Aprendizaje — 12 Meses</h3>
+  <div style="height:20px;"></div>
+  <div class="roadmap">
+    <div class="rm-step">
+      <div class="rm-dot v">1–2</div>
+      <div class="rm-content">
+        <h4>Meses 1–2: Dominar la Parte 1</h4>
+        <p>Lee sobre trusts, FATCA/CRS, protección patrimonial. Puedes usar ChatGPT o Claude para hacer preguntas conceptuales. Objetivo: que cuando Felipe diga algo técnico, lo entiendas sin dudar.</p>
+        <div class="rm-tags">
+          <span class="rm-tag">Módulos 01–08</span>
+          <span class="rm-tag">Conversaciones con Felipe</span>
+          <span class="rm-tag">Asset Protection de Adkisson</span>
+        </div>
+      </div>
+    </div>
+    <div class="rm-step">
+      <div class="rm-dot v">3–4</div>
+      <div class="rm-content">
+        <h4>Meses 3–4: Implementar y observar</h4>
+        <p>Mientras se implementa tu estructura, estudia cada documento que firmes. Pide que te expliquen cada cláusula. El aprendizaje por experiencia directa es el más valioso en este campo.</p>
+        <div class="rm-tags">
+          <span class="rm-tag">Documentos constitutivos reales</span>
+          <span class="rm-tag">Contrato con Trustee</span>
+          <span class="rm-tag">Estatutos LLC</span>
+        </div>
+      </div>
+    </div>
+    <div class="rm-step">
+      <div class="rm-dot a">5–7</div>
+      <div class="rm-content">
+        <h4>Meses 5–7: Profundizar en jurisdicciones y fiscal</h4>
+        <p>Estudia los tratados de doble tributación México-EE.UU. y México-Países Bajos. Lee sobre BEPS y el impuesto mínimo global. Comienza a entender precios de transferencia y REFIPRE.</p>
+        <div class="rm-tags">
+          <span class="rm-tag">Módulos 09–13</span>
+          <span class="rm-tag">OCDE BEPS</span>
+          <span class="rm-tag">TDT México-EE.UU.</span>
+        </div>
+      </div>
+    </div>
+    <div class="rm-step">
+      <div class="rm-dot a">8–10</div>
+      <div class="rm-content">
+        <h4>Meses 8–10: Gobierno corporativo y estructuras avanzadas</h4>
+        <p>Estudia cómo diseñar estatutos que blindan la estructura. Aprende sobre holdings internacionales y family offices. Lee casos de perforación del velo corporativo.</p>
+        <div class="rm-tags">
+          <span class="rm-tag">Módulos 14–15</span>
+          <span class="rm-tag">Casos jurisprudenciales</span>
+          <span class="rm-tag">Family Office estructuras</span>
+        </div>
+      </div>
+    </div>
+    <div class="rm-step">
+      <div class="rm-dot g">11–12</div>
+      <div class="rm-content">
+        <h4>Meses 11–12: Aplicar y co-diseñar</h4>
+        <p>Para este punto puedes sentarte con Felipe o cualquier asesor y hacer aportes reales: proponer cláusulas, cuestionar decisiones de jurisdicción, evaluar opciones para nuevos activos. Has pasado de cliente a co-diseñador.</p>
+        <div class="rm-tags">
+          <span class="rm-tag">Módulo 16</span>
+          <span class="rm-tag">IBFD research</span>
+          <span class="rm-tag">Reuniones de revisión anual</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<div class="footer">
+  <p>Guía de aprendizaje patrimonial · Elaborada con base en la reunión de estructuración · Uso privado y educativo · No sustituye asesoría legal o fiscal profesional</p>
+</div>
+
+</body>
+</html>
