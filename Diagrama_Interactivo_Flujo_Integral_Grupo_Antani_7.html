@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagrama interactivo · Manual del Flujo Integral · Grupo Antani</title>
+<style>
+:root{
+  --ink:#12263F;
+  --ink-soft:#33495f;
+  --muted:#6a7b8c;
+  --line:#d5dde4;
+  --bg:#ffffff;
+  --bg-soft:#f7f9fb;
+  --marketing:#C8842A;
+  --comercial:#12263F;
+  --cobranza:#2E8B7A;
+  --crm:#4A8DB7;
+  --legal:#7B68A6;
+  --corp:#4C8B4A;
+  --exit:#C0524A;
+  --radius:10px;
+  --font:'Poppins','Century Gothic','Futura','Avenir Next',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:var(--font);
+  color:var(--ink);
+  background:var(--bg);
+  -webkit-font-smoothing:antialiased;
+  font-size:15px;
+  line-height:1.45;
+}
+.wrap{max-width:1760px;margin:0 auto;padding:34px 40px 70px}
+
+/* ---------- header ---------- */
+.eyebrow{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--marketing);font-weight:600;margin:0 0 8px}
+h1.title{font-size:29px;line-height:1.2;margin:0;font-weight:600;letter-spacing:-.01em}
+.subtitle{color:var(--muted);font-size:14px;margin:9px 0 0;max-width:720px}
+.head{display:flex;gap:40px;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;margin-bottom:30px}
+.legend{display:grid;grid-template-columns:repeat(2,auto);grid-template-rows:repeat(3,auto);grid-auto-flow:column;gap:5px 34px;font-size:12.5px;color:var(--ink-soft);padding-top:4px}
+.legend span{display:flex;align-items:center;gap:9px;white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.hint{margin-top:14px;display:inline-flex;align-items:center;gap:9px;font-size:12.5px;color:var(--muted);background:var(--bg-soft);border:1px solid var(--line);border-radius:99px;padding:6px 14px}
+.hint b{color:var(--ink);font-weight:600}
+
+/* ---------- map grid ---------- */
+.map{display:grid;grid-template-columns:repeat(4,1fr);gap:26px;align-items:start}
+.col{min-width:0}
+.phase{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--marketing);font-weight:600;margin-bottom:3px}
+.phase-name{font-size:19px;font-weight:600;margin:0 0 20px;letter-spacing:-.01em}
+.col-foot{margin-top:16px;font-size:11.5px;color:var(--marketing);border-top:1px dashed #e6c79b;padding-top:9px;display:flex;align-items:center;gap:6px}
+
+/* ---------- flow renderer ---------- */
+.flow{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:minmax(0,1fr) 30px minmax(0,.82fr);align-items:center}
+.row.nobranch{grid-template-columns:minmax(0,1fr)}
+.vconn{height:26px;display:flex;flex-direction:column;align-items:center;position:relative;grid-column:1}
+.vconn .ln{width:1.5px;background:#b9c4ce;flex:1}
+.vconn .tip{width:0;height:0;border-left:4.5px solid transparent;border-right:4.5px solid transparent;border-top:6px solid #b9c4ce;margin-top:-1px}
+.vconn .lbl{position:absolute;left:calc(50% + 9px);top:50%;transform:translateY(-50%);font-size:10.5px;color:var(--muted);white-space:nowrap;background:#fff;padding:0 3px}
+.hconn{display:flex;align-items:center;position:relative;height:100%;min-height:26px}
+.hconn .ln{height:1.5px;background:#b9c4ce;flex:1}
+.hconn .tip{width:0;height:0;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent;border-left:6px solid #b9c4ce}
+.hconn .lbl{position:absolute;left:50%;top:calc(50% - 15px);transform:translateX(-50%);font-size:10.5px;color:var(--muted);white-space:nowrap;background:#fff;padding:0 3px;z-index:3}
+.node .eb-lbl{display:block;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;font-weight:600}
+.hconn.red .ln{background:#e0a8a2}.hconn.red .tip{border-left-color:#e0a8a2}
+.hconn.green .ln{background:#8fc4b6}.hconn.green .tip{border-left-color:#8fc4b6}
+
+/* ---------- nodes ---------- */
+.node{
+  --c:var(--ink);
+  position:relative;
+  border:1.4px solid color-mix(in srgb, var(--c) 55%, #fff);
+  background:color-mix(in srgb, var(--c) 6%, #fff);
+  border-radius:var(--radius);
+  padding:13px 15px;
+  display:flex;gap:9px;align-items:flex-start;
+  transition:box-shadow .15s ease, transform .15s ease, border-color .15s ease;
+}
+.node .num{font-weight:600;font-size:13px;color:var(--c);flex:none;min-width:13px;line-height:1.35}
+.node .txt{font-size:13.2px;line-height:1.35;min-width:0}
+.node .txt .d{display:block;font-size:11.6px;color:var(--muted);margin-top:4px;line-height:1.4}
+.node.small{padding:10px 13px}
+.node.small .txt{font-size:12.2px}
+.node.exit{--c:var(--exit);border-style:solid;text-align:left}
+.node.exit .txt{color:#9c4740;font-size:12.2px}
+.node.msg{--c:#7f8c99;background:#f3f6f9;border:1px solid #dce4eb;border-left:3px solid #9fb3c4;border-radius:4px 12px 12px 12px}
+.node.msg .txt{font-size:12.6px;color:#2b3d4f;line-height:1.5}
+.node.msg .txt .d{font-style:normal}
+.btnrow{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:7px}
+.btn-pill{font-size:11.4px;border:1px solid #cbd6df;border-radius:99px;padding:5px 13px;color:var(--ink-soft);background:#fff;white-space:nowrap}
+.group{margin:30px 0 14px;display:flex;align-items:center;gap:13px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--marketing);font-weight:600}
+.group::after{content:'';flex:1;height:1px;background:#ecd6b4}
+.flow > .row:first-child .group{margin-top:0}
+.node.note{--c:#8a97a3;background:#f7f9fb;border-style:dashed}
+.node.note .txt{font-size:12px;color:var(--ink-soft)}
+.node.term{background:var(--ink);border-color:var(--ink);justify-content:center}
+.node.term .txt{color:#fff;font-weight:600;font-size:13.5px;text-align:center}
+.node.clickable{cursor:pointer}
+.node.clickable:hover,.node.clickable:focus-visible{
+  transform:translateY(-1px);
+  box-shadow:0 6px 18px -8px color-mix(in srgb, var(--c) 60%, transparent);
+  border-color:var(--c);outline:none;
+}
+.node.clickable .plus{
+  position:absolute;top:-8px;right:-8px;width:21px;height:21px;border-radius:50%;
+  background:#fff;border:1.4px solid var(--c);color:var(--c);
+  font-size:13px;line-height:18px;text-align:center;font-weight:600;
+  box-shadow:0 1px 4px rgba(18,38,63,.12);
+}
+.node.clickable:hover .plus{background:var(--c);color:#fff}
+.node.pending{border-style:dashed;opacity:.85}
+.node .tag{
+  display:inline-block;margin-top:7px;font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--muted);border:1px solid var(--line);border-radius:99px;padding:2px 8px;
+}
+
+/* decision */
+.dec{position:relative;display:flex;justify-content:center;align-items:center;min-height:96px;margin:2px 0}
+.dec svg{position:absolute;inset:0;width:100%;height:100%}
+.dec .dtxt{
+  position:relative;width:62%;margin:0 auto;
+  text-align:center;font-size:11.8px;font-weight:600;line-height:1.3;color:var(--ink);
+}
+
+/* ---------- footnotes ---------- */
+.notes{margin-top:44px;border-top:1px solid var(--line);padding-top:20px;display:grid;gap:9px;font-size:12.5px;color:var(--muted)}
+.notes b{color:var(--ink);font-weight:600}
+.notes .n-red b{color:var(--exit)}
+.stamp{margin-top:22px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#9aa7b4}
+
+/* ---------- overlay ---------- */
+.ov{position:fixed;inset:0;background:rgba(18,38,63,.35);backdrop-filter:blur(3px);z-index:50;display:none;opacity:0;transition:opacity .18s ease}
+.ov.on{display:block;opacity:1}
+.panel{
+  position:fixed;inset:22px;background:#fff;border-radius:16px;z-index:51;
+  display:none;flex-direction:column;overflow:hidden;
+  box-shadow:0 40px 90px -30px rgba(18,38,63,.5);
+  transform:translateY(10px);opacity:0;transition:opacity .18s ease, transform .18s ease;
+}
+.panel.on{display:flex;opacity:1;transform:none}
+.pbar{display:flex;align-items:center;gap:16px;padding:16px 22px;border-bottom:1px solid var(--line);flex:none}
+.pbar .back{
+  border:1px solid var(--line);background:#fff;border-radius:99px;padding:7px 14px;font:inherit;font-size:12.5px;
+  color:var(--ink);cursor:pointer;display:flex;align-items:center;gap:7px;white-space:nowrap;
+}
+.pbar .back:hover{background:var(--bg-soft)}
+.pbar .who{min-width:0;flex:1}
+.pbar .eb{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted);display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.pbar h2{margin:2px 0 0;font-size:19px;font-weight:600;letter-spacing:-.01em;line-height:1.25}
+.chip{display:inline-flex;align-items:center;gap:6px;border-radius:99px;padding:2px 9px;font-size:10.5px;letter-spacing:.06em;
+  border:1px solid color-mix(in srgb,var(--c,#12263F) 40%,#fff);color:var(--c,#12263F);background:color-mix(in srgb,var(--c,#12263F) 7%,#fff);text-transform:uppercase}
+.nav{display:flex;gap:8px;flex:none}
+.nav button{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:15px;color:var(--ink);font-family:var(--font)}
+.nav button:hover:not(:disabled){background:var(--bg-soft)}
+.nav button:disabled{opacity:.32;cursor:default}
+.nav .close{background:var(--ink);border-color:var(--ink);color:#fff}
+.pbody{flex:1;overflow:auto;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(340px,.85fr);gap:0}
+.pflow{padding:30px 34px 60px;min-width:0;border-right:1px solid var(--line);background:
+  radial-gradient(circle at 1px 1px, #e8edf2 1px, transparent 0) 0 0/22px 22px}
+.pflow .flow{max-width:640px;margin:0 auto}
+.pflow .row{grid-template-columns:minmax(0,1fr) 34px minmax(0,.72fr)}
+.sec-h{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 14px;text-align:center}
+.ficha{padding:28px 30px 60px;background:#fff;min-width:0}
+.ficha h3{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:26px 0 10px}
+.ficha h3:first-child{margin-top:0}
+.ficha p.resumen{font-size:13.6px;line-height:1.55;color:var(--ink-soft);margin:0}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:7px 14px;font-size:12.8px}
+.kv dt{color:var(--muted)}
+.kv dd{margin:0;color:var(--ink);font-weight:500}
+.ficha ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.ficha li{font-size:12.8px;line-height:1.45;color:var(--ink-soft);padding-left:16px;position:relative}
+.ficha li::before{content:'';position:absolute;left:0;top:7px;width:5px;height:5px;border-radius:50%;background:var(--c,#12263F);opacity:.55}
+.ficha li b{color:var(--ink);font-weight:600}
+.docs{display:flex;flex-wrap:wrap;gap:7px}
+.doc{font-size:11.5px;border:1px solid var(--line);border-radius:7px;padding:6px 10px;color:var(--ink-soft);background:var(--bg-soft)}
+.doc.miss{border-style:dashed;color:var(--exit);background:#fdf5f4;border-color:#eec8c3}
+table.tb{width:100%;border-collapse:collapse;font-size:12px;margin-top:2px}
+table.tb th{text-align:left;font-weight:600;color:var(--muted);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;padding:0 8px 7px 0;border-bottom:1px solid var(--line)}
+table.tb td{padding:7px 8px 7px 0;border-bottom:1px solid #eef2f5;color:var(--ink-soft)}
+table.tb td:first-child{font-weight:600;color:var(--ink)}
+.warn{border-left:2.5px solid var(--exit);background:#fdf5f4;padding:10px 13px;border-radius:0 8px 8px 0;font-size:12.4px;color:#8f4038;line-height:1.45}
+.warn b{color:#7c352e}
+
+@media (max-width:1400px){
+  .map{grid-template-columns:repeat(2,1fr);gap:34px 26px}
+}
+@media (max-width:1100px){
+  .pbody{grid-template-columns:1fr}
+  .pflow{border-right:0;border-bottom:1px solid var(--line)}
+}
+@media (max-width:760px){
+  .wrap{padding:22px 18px 50px}
+  .map{grid-template-columns:1fr}
+  .panel{inset:0;border-radius:0}
+  .legend{grid-template-columns:1fr}
+  .row{grid-template-columns:minmax(0,1fr) 22px minmax(0,.9fr)}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="head">
+    <div>
+      <p class="eyebrow">Diagrama de flujo de la operación</p>
+      <h1 class="title">Del anuncio al retorno: las 17 etapas del Manual del Flujo Integral</h1>
+    </div>
+    <div class="legend" id="legend"></div>
+  </div>
+
+  <div class="map" id="map"></div>
+
+  <div class="notes">
+    <div class="stamp">Manual del Flujo Integral del Modelo de Negocio · Grupo Antani · USO INTERNO</div>
+  </div>
+</div>
+
+<div class="ov" id="ov"></div>
+<div class="panel" id="panel" role="dialog" aria-modal="true" aria-labelledby="ptitle">
+  <div class="pbar">
+    <button class="back" id="back">&larr; Volver al mapa</button>
+    <div class="who">
+      <div class="eb" id="peb"></div>
+      <h2 id="ptitle"></h2>
+    </div>
+    <div class="nav">
+      <button id="prev" title="Etapa anterior (←)">&larr;</button>
+      <button id="next" title="Etapa siguiente (→)">&rarr;</button>
+      <button id="close" class="close" title="Cerrar (ESC)">&times;</button>
+    </div>
+  </div>
+  <div class="pbody" id="pbody">
+    <div class="pflow"><p class="sec-h">Proceso interno</p><div id="pflow"></div></div>
+    <div class="ficha" id="pficha"></div>
+  </div>
+</div>
+
+<script>
+const AREAS = {
+  marketing:'Marketing',
+  comercial:'Área Comercial',
+  cobranza:'Cobranza y Administración',
+  crm:'CRM y automatización',
+  legal:'Área Legal',
+  corp:'Corporativo y Dirección'
+};
+
+/* ===================== MAPA GENERAL ===================== */
+const PHASES = [
+  {
+    range:'Etapas 1 a 4', name:'Captación',
+    foot:'Continúa en Fase 2 · Cierre y formalización →',
+    nodes:[
+      {n:'1', t:'Anuncio en redes sociales (Meta Ads)', area:'marketing'},
+      {n:'2', t:'Formulario de perfilamiento', area:'crm', opens:2},
+      {type:'dec', t:'¿Cumple la capacidad<br>económica mínima?',
+        br:{label:'No', tone:'red', node:{type:'exit', t:'Se agradece el interés', d:'Sale del flujo de atención y entra a la Ruta A de nutrición.'}}},
+      {n:'3', t:'ChatBot: atención, dudas y agenda', area:'crm', opens:3, in:'Sí'},
+      {n:'4', t:'Videollamada con el asesor comercial', area:'comercial', opens:4}
+    ]
+  },
+  {
+    range:'Etapas 5 a 8', name:'Cierre y formalización',
+    foot:'Continúa en Fase 3 · Cobranza →',
+    nodes:[
+      {n:'5', t:'Pipeline comercial en el CRM (Kommo)', area:'crm', opens:5},
+      {type:'dec', t:'¿El prospecto<br>queda interesado?',
+        br:{label:'No', tone:'red', node:{type:'exit', t:'Descartado: se conserva en base de datos'}}},
+      {n:'6', t:'Alta del inversionista: KYC y esquema', area:'comercial', opens:6, in:'Sí'},
+      {n:'7', t:'Integración del expediente documental', area:'legal', opens:7},
+      {n:'8', t:'Firma de los 4 documentos (We Trust)', area:'legal', opens:8}
+    ]
+  },
+  {
+    range:'Etapas 9 a 13', name:'Cobranza',
+    foot:'Continúa en Fase 4 · Incorporación y salida →',
+    nodes:[
+      {n:'9', t:'Inicio de las aportaciones mensuales', area:'cobranza'},
+      {n:'10', t:'ChatBot de cobranza', area:'cobranza', opens:10},
+      {n:'11', t:'Registro automático de pagos (BanBajío)', area:'cobranza', opens:11},
+      {type:'dec', t:'¿Pago recibido<br>en tiempo?',
+        br:{label:'No', node:{n:'12', t:'Gestión de morosidad', d:'Hasta 3 meses para regularizarse · si no, cancelación del contrato.', area:'cobranza', opens:12}}},
+      {n:'13', t:'Conclusión de las mensualidades', area:'cobranza', in:'Sí · al completar el plazo'}
+    ]
+  },
+  {
+    range:'Etapas 14 a 17', name:'Incorporación y salida',
+    nodes:[
+      {n:'14', t:'Asamblea: incorporación como socio', area:'corp', opens:14},
+      {n:'15', t:'Desarrollo del proyecto inmobiliario', area:'corp'},
+      {n:'16', t:'Venta del proyecto (nueva asamblea)', area:'corp'},
+      {n:'17', t:'Retorno de inversión y utilidades', area:'corp'},
+      {type:'term', t:'Fin del ciclo del inversionista'}
+    ]
+  }
+];
+
+const TABLA_CLASES = {
+  title:'Clases del vehículo SPV 18 · Anexo 03',
+  head:['Clase','Precio/m²','Mensualidad','Total 24 m','Total 36 m'],
+  rows:[
+    ['1','$989','$200,000','$4,800,000','$7,200,000'],
+    ['2','$1,079','$130,000','$3,120,000','$4,680,000'],
+    ['3','$1,139','$85,000','$2,040,000','$3,060,000'],
+    ['4','$1,209','$55,000','$1,320,000','$1,980,000'],
+    ['5','$1,279','$35,000','$840,000','$1,260,000'],
+    ['6','$1,349','$20,000','$480,000','$720,000']
+  ]
+};
+
+/* ===================== ETAPAS CON PROCESO INTERNO ===================== */
+const STAGES = [
+
+/* ---------- 2 · FORMULARIO ---------- */
+{
+  id:2, title:'Perfilamiento del prospecto · Formulario de Meta', phase:'Fase 1 · Captación', section:'Manual, etapa 2 · Anexo 02, sección 2', area:'crm',
+  resp:'Marketing (pauta) · CRM (formulario y etiquetado)',
+  disparo:'Clic en el anuncio de Meta',
+  salida:'Lead creado y etiquetado en Kommo, con nombre, teléfono y correo, redirigido al ChatBot',
+  sistemas:'Meta Lead Ads → Kommo',
+  sub:[
+    {type:'group', t:'Entrada'},
+    {t:'Clic en el anuncio', d:'Campaña de Meta (Facebook / Instagram). El formulario abre con nombre, teléfono y correo electrónico prellenados por Meta; se agregan 4 preguntas.', area:'marketing'},
+
+    {type:'group', t:'P1 · Filtro 1 — capacidad (única pregunta que descarta)'},
+    {type:'msg', t:'Para sumarte, la participación comienza a partir de $480 mil pesos. No necesitas tenerlo de contado: puedes hacerlo con aportaciones desde $20 mil al mes (a 24 o 36 meses). ¿Qué monto podrías destinar en total?'},
+    {type:'btns', opts:['Menos de $480 mil','$480 mil – $1 millón','$1 – $5 millones','Más de $5 millones']},
+    {type:'dec', t:'¿Capacidad ≥ $480 mil?',
+      br:{label:'Menos de $480 mil', tone:'red', node:{type:'exit', t:'Descalifica automáticamente', d:'Sale del flujo de atención y entra a la Ruta A de nutrición.'}}},
+
+    {type:'group', in:'Sí', t:'Sí califica · P2 – P4, etiquetas de contexto (no descartan)'},
+    {type:'msg', eb:'P2', t:'¿En cuánto tiempo te gustaría sumarte al proyecto?'},
+    {type:'btns', opts:['En los próximos 30 días','De 1 a 3 meses','De 3 a 6 meses','En más de 6 meses','Solo estoy explorando']},
+    {type:'msg', eb:'P3', t:'¿Has comprado terrenos o bienes raíces antes?'},
+    {type:'btns', opts:['Sí, bienes raíces / terrenos','Sí, otro tipo de proyectos','No, sería la primera vez']},
+    {type:'msg', eb:'P4', t:'¿Qué es lo que más te interesa lograr hoy?'},
+    {type:'btns', opts:['Construir patrimonio (3–6 años)','Ingreso o renta mensual','Solo estoy explorando']},
+
+    {type:'group', t:'Salida del formulario'},
+    {t:'Alta del lead en Kommo', d:'Se crea el lead con las etiquetas de contexto que dejan las cuatro preguntas. El objetivo y el plazo no cambian el mensaje del bot.', area:'crm'},
+    {t:'Etiqueta de color por prioridad', d:'Kommo la asigna automáticamente al crear el lead, con base en las respuestas del formulario. Rojo: prioridad alta · amarillo: prioridad media · blanco: prioridad baja.', area:'crm'},
+    {t:'Redirección automática al ChatBot de WhatsApp', d:'Entra el mensaje de bienvenida M1. El primer tap del prospecto abre la ventana de 24 horas.', area:'crm', opens:3},
+
+    {type:'group', t:'Ruta A · no califica por monto (< $480 mil)'},
+    {type:'msg', eb:'Pantalla final E2 · se muestra de inmediato en el formulario, no llega al bot', t:'¡Gracias por tu interés! En Grupo Antani preferimos ser transparentes: este proyecto en particular arranca con una entrada base de $480 mil pesos, y queremos que cualquier persona que se sume lo haga con la certeza de que es el momento correcto para hacerlo. Sin embargo, seguimos desarrollando nuevos proyectos, y nos encantaría avisarte cuando tengamos uno con un punto de entrada distinto.'},
+    {t:'Etiqueta «nutrir-bajo-ticket»', d:'Entra a un goteo de baja frecuencia con avisos de nuevos proyectos. Nunca se descarta en frío ni se asigna al asesor.', area:'crm'}
+  ],
+  reglas:[
+    'Regla de oro: el <b>único</b> filtro de descarte es la capacidad. Menos de $480 mil no continúa al flujo de atención.',
+    'Plazo, experiencia previa y objetivo <b>nunca descartan</b>; son etiquetas de contexto y prioridad para el asesor.',
+    'Meta prellena nombre, teléfono y correo electrónico; se agregan 4 preguntas. El correo queda registrado desde el formulario.',
+    'El agradecimiento a quien no califica se muestra en el propio formulario (pantalla E2), antes de cualquier conversación.',
+    'La participación comienza a partir de $480 mil pesos, con aportaciones desde $20 mil al mes a 24 o 36 meses.',
+    'La etiqueta de color de prioridad se asigna de forma automática al crear el lead: rojo alta, amarillo media, blanco baja.'
+  ],
+  salidas:['Capacidad menor a $480 mil → Ruta A: pantalla E2, etiqueta «nutrir-bajo-ticket» y goteo de baja frecuencia. No agenda y no se asigna al asesor.'],
+  tabla:{
+    title:'Ruteo por perfil del lead · Anexo 02, sección 5',
+    head:['Perfil del lead','Qué hace el sistema'],
+    rows:[
+      ['Capacidad ≥ $480 mil (cualquier objetivo o plazo)','CALIFICADO → agenda disponible en cualquier momento del flujo. Objetivo y plazo quedan como etiquetas de contexto.'],
+      ['Capacidad < $480 mil','NUTRIR → info + etiqueta «bajo ticket». No agenda, no se asigna al asesor.'],
+      ['Escribe pidiendo humano (palabra clave)','HANDOFF inmediato al asesor, sin importar el perfil.'],
+      ['No responde / «solo explorando»','Recordatorio (Ruta B) + etiqueta nutrir. Nunca se descarta si tiene capacidad.']
+    ]
+  },
+  docs:[{t:'Anexo 01 · Documento Maestro Meta Ads'},{t:'Anexo 02 · Configuración del Bot etapa 2'}]
+},
+
+/* ---------- 3 · CHATBOT ---------- */
+{
+  id:3, title:'ChatBot de atención y agenda', phase:'Fase 1 · Captación', section:'Manual, etapa 3 · Anexo 02', area:'crm',
+  resp:'CRM y automatización (bots) · Área Comercial (handoff)',
+  disparo:'Redirección desde el formulario',
+  salida:'Videollamada agendada, confirmada y recordada, con el asesor notificado',
+  sistemas:'Kommo + WhatsApp Business API + página externa de reservas + Zoom',
+  sub:[
+    {type:'group', t:'Bot 1 · principal — M1 Bienvenida'},
+    {t:'M1 · Bienvenida', d:'Plantilla aprobada por Meta. El primer tap abre la ventana de 24 h.', area:'crm',
+      br:{label:'palabra clave', node:{t:'Handoff inmediato', d:'Disponible en cualquier punto de la conversación.', area:'comercial'}}},
+    {type:'msg', t:'Hola [nombre], te escribo de Grupo Antani. Vi que te interesa entrar a la sociedad del proyecto en Querétaro.<br>¿Por dónde quieres empezar?'},
+    {type:'btns', opts:['Cuéntame cómo funciona','Tengo una duda','Quiero agendar videollamada']},
+    {type:'dec', t:'¿Qué opción elige?',
+      br:{label:'no reconocida', node:{type:'msg', eb:'respuesta no reconocida · en M1 o en el menú', t:'No entendí tu mensaje. Elige una opción del menú, o escribe "asesor" si prefieres que alguien de nuestro equipo te ayude directamente.'}}},
+
+    {type:'group', in:'según la opción', t:'Rama A · «Cuéntame cómo funciona»'},
+    {type:'msg', t:'Analizamos zonas estratégicas y compramos tierra antes de que llegue el desarrollo. En este proyecto ya está pasando: compramos hace años y hoy el desarrollo ya llegó — a minutos hay desarrollos como Simate, Velasur y Cañadas del Arroyo, y ya están confirmados HEB y Costco.<br><br>Tú entras como accionista de la sociedad, respaldado por el activo. Nosotros también somos socios y llevamos toda la operación hasta la venta al desarrollador.<br><br>Un experto te lo explica a detalle en 15 minutos: ubicación, comparables, monto de entrada y plazo. ¿Cómo están tus tiempos hoy?'},
+    {type:'btns', opts:['Agendar videollamada','Tengo otra duda']},
+
+    {type:'group', t:'Rama B · «Tengo una duda»'},
+    {type:'msg', t:'Claro. ¿Qué te gustaría saber?'},
+    {t:'Menú de dudas · lista nativa de WhatsApp (un solo mensaje)', d:'1 · ¿Qué estoy comprando?<br>2 · ¿Qué certeza legal tengo?<br>3 · ¿Cuál es el plazo?<br>4 · ¿Quién es Grupo Antani?<br>5 · ¿Dónde está y por qué?<br>6 · ¿Cuánto necesito para sumarme?', area:'crm'},
+    {type:'btns', opts:['Agendar videollamada','Tengo otra duda']},
+    {t:'Cierre de cada respuesta del menú', d:'«Tengo otra duda» regresa al menú · «Agendar videollamada» dispara la acción de agenda.', area:'crm'},
+
+    {type:'group', t:'Rama C · «Quiero agendar videollamada»'},
+    {t:'Ya lo pidió: no se le vuelve a preguntar', d:'Pasa directo a la acción de agenda.', area:'crm'},
+
+    {type:'group', t:'Acción · Agendar videollamada (desde cualquier punto)'},
+    {t:'Mismo botón, mismo resultado', d:'Venga de M1, de «cómo funciona» o de cualquier respuesta del menú de dudas. Sin paso de confirmación intermedio: se manda el link directo.', area:'crm'},
+    {type:'msg', t:'Agenda tu videollamada con uno de nuestros expertos aquí: [ link de reserva ]'},
+    {t:'Etapa del lead → «Calificado - Agenda ofrecida»', area:'crm'},
+    {type:'dec', t:'¿Completa la reserva en<br>la página externa?',
+      br:{label:'No responde', node:{t:'Ruta B · secuencia de nutrición', d:'5 minutos · 1 hora · 24 horas.', area:'crm'}}},
+
+    {type:'group', in:'Sí', t:'Bot 2 · confirmación de reserva y enlace de Zoom'},
+    {t:'Se dispara al completar la reserva', d:'Bot separado del principal. Mueve el lead a la etapa «Cita agendada» y notifica al asesor comercial.', area:'crm'},
+    {type:'msg', t:'Listo, tu videollamada quedó confirmada.<br>[ fecha de la cita ]<br>Zoom: [ enlace de zoom ]<br>Si necesitas moverla, aquí lo puedes hacer: [ link de reserva ]'},
+
+    {type:'group', t:'Bot 3 · Recordatorio antes de la cita'},
+    {t:'Se dispara automáticamente antes de la hora de la videollamada', area:'crm'},
+    {type:'msg', t:'¡Hola [nombre]! Te escribo para recordarte que ya casi es tu videollamada. ¿Me confirmas que sí puedes asistir?'},
+    {type:'btns', opts:['Confirmar','Reprogramar','Cancelar']},
+    {type:'dec', t:'¿Qué responde al recordatorio?',
+      br:{label:'[ Reprogramar ]', node:{type:'msg', eb:'aviso interno al asesor: «Desea reprogramar»', t:'Aquí puedes reprogramar tu cita: [ link de reserva ]'}}},
+    {type:'msg', eb:'[ Cancelar ]', t:'Listo, cancelamos tu cita. Si quieres agendar en otro momento, aquí puedes hacerlo para no perder la oportunidad de ser parte de este proyecto único: [ link de reserva ]<br>Si tienes un minuto, cuéntanos el motivo — nos ayuda a mejorar',
+      br:{label:'sin respuesta en 5 min', node:{type:'msg', t:'¿Nos confirmas si sigues disponible para la llamada? Si no vas a poder, aquí puedes reprogramar o cancelar sin problema.'}}},
+    {type:'msg', eb:'[ Confirmar ]', t:'¡Perfecto! Nos vemos dentro de poco.',
+      br:{label:'no reconocida', node:{type:'msg', eb:'aviso interno al asesor: «Respondió al recordatorio, revisar»', t:'No logré entender tu mensaje, pero no te preocupes — alguien de nuestro equipo te va a contactar en breve.'}}},
+    {n:'4', t:'Videollamada con el asesor comercial', in:'cita confirmada', area:'comercial', opens:4},
+
+    {type:'group', t:'Ruta B · dejó la conversación a medias'},
+    {type:'msg', eb:'a los 5 minutos, si no responde', t:'¡Hola! Solo paso a dar seguimiento a tu mensaje. Si todavía te interesa conocer el proyecto de adquisición de tierra en Querétaro, puedo ayudarte con cualquier duda o explicarte cómo funciona. Si prefieres, también puedes agendar directo aquí: [ link de reserva ]'},
+    {type:'msg', eb:'a la 1 hora, si no responde al de 5 min', t:'Hola [nombre], seguimos disponibles por si tienes dudas sobre el proyecto. Puedes agendar una videollamada de 15 minutos con uno de nuestros asesores aquí: [ link de reserva ]'},
+    {type:'msg', eb:'a las 24 horas · plantilla aprobada por Meta, ya fuera de la ventana', t:'Hola [nombre], por si sirve: nuestro modelo es comprar tierra antes de que llegue el desarrollo, e invitar a socios a la empresa dueña de esa tierra. Seguimos con espacio disponible para sumarte a este proyecto, aunque cada vez es menos.<br>Si quieres asegurar tu lugar, agenda 15 minutos con uno de nuestros asesores: [ link de reserva ]'},
+    {t:'Sin respuesta tras las tres', d:'Etiqueta «frío»: sale del flujo activo y queda en goteo mensual.', area:'crm'},
+
+    {type:'group', t:'Handoff por palabra clave y horario de atención'},
+    {t:'Palabras que detienen al bot', d:'asesor · vendedor · ejecutivo · humano · persona · agente · márcame · contáctame · llámame · hablar con alguien', area:'crm'},
+    {t:'El bot se detiene y entrega el lead', d:'Mueve el lead a «Asignado a ventas» y lo asigna al asesor, sin importar el perfil.', area:'comercial'},
+    {type:'dec', t:'¿Está dentro del horario<br>de atención en vivo?',
+      br:{label:'Sí', node:{t:'Atención en vivo del asesor', d:'Lunes a viernes 9:00–18:00 · sábado 9:00–13:00.', area:'comercial'}}},
+    {type:'msg', in:'No', eb:'fuera de horario', t:'Nuestro asesor te contacta en cuanto esté disponible (atiende L–V 9–18, sáb 9–13). Te dejo agendado.'},
+    {t:'Se asigna igual, sin dejar el lead en frío', d:'El bot perfila y agenda 24/7; el horario solo aplica al handoff en vivo.', area:'comercial'}
+  ],
+  reglas:[
+    'Regla de oro: la única forma de descartar un lead es que no tenga capacidad (menos de $480 mil). Sin experiencia, querer renta mensual o «solo explorar» nunca descartan.',
+    'El botón de agendar aparece al cierre de todas las respuestas y manda el link directo, sin paso de confirmación intermedio.',
+    'El menú va como lista de WhatsApp porque 6 temas más agendar no caben en el máximo de 3 botones.',
+    '«Por qué esta zona» viene fusionado dentro de «¿Dónde está?» (tema 5).',
+    'Handoff por palabra clave en cualquier punto, con o sin horario de atención.',
+    'Todo el copy está redactado en «zona segura» según la opinión legal de RVG: nada de fondo, rendimiento garantizado ni tasas.',
+    'El bot no resuelve objeciones profundas: las canaliza a la videollamada.'
+  ],
+  tiempos:[
+    'Ruta B de nutrición: 5 minutos → 1 hora → 24 horas.',
+    'Bot 3: si no responde al recordatorio, insiste a los 5 minutos.',
+    'El bot perfila y agenda 24/7. El horario aplica solo al handoff en vivo: lunes a viernes 9:00–18:00 y sábado 9:00–13:00.'
+  ],
+  salidas:[
+    'Sin capacidad → Ruta A de nutrición (no llega a este bot).',
+    'Sin respuesta tras los tres mensajes de Ruta B → etiqueta «frío», goteo mensual.',
+    'Pide hablar con una persona → «Asignado a ventas».'
+  ],
+  tabla:{
+    title:'Menú de dudas · texto literal de cada respuesta',
+    head:['#','Tema y respuesta del bot'],
+    rows:[
+      ['1','<b>¿Qué estoy comprando?</b> — Acciones de la empresa dueña del terreno, no un pedazo físico de tierra. El macrolote se vende completo a un desarrollador, y tú quedas registrado en el libro de accionistas. Es un activo tangible, a tu nombre. ¿Te lo explicamos a detalle en una videollamada de 15 minutos?'],
+      ['2','<b>¿Qué certeza legal tengo?</b> — Es la pregunta más importante, y la respuesta va en tres partes: el terreno se compra después de un due diligence completo, legal y técnico; tu participación queda protegida por contrato desde el día uno y registrada en el libro de accionistas mediante asamblea protocolizada; Grupo Antani entra como socio del proyecto, no como intermediario. Nuestros intereses se alinean con los socios. ¿Lo vemos a fondo con un asesor?'],
+      ['3','<b>¿Cuál es el plazo?</b> — La salida conservadora es de 4 a 6 años. Nunca se fuerza una venta si perjudica a los socios — todo se decide en asambleas en conjunto con los socios. ¿Quieres que uno de nuestros asesores te lo explique a detalle en una videollamada?'],
+      ['4','<b>¿Quién es Grupo Antani?</b> — Somos un conglomerado con más de 1,200 viviendas desarrolladas y más de 5,000 comercializadas. También tenemos 3 fábricas que surten a General Motors, VW, Bombardier y Boeing, entre otros. Nuestras oficinas están en Torre 57, Querétaro. Nuestro fundador, Anuar El Jeitani, es miembro de YPO, la red de empresarios más reconocida del mundo. ¿Quieres conocernos a fondo en una videollamada?'],
+      ['5','<b>¿Dónde está y por qué?</b> — Nuestro proyecto está en Huimilpan, dentro de la Zona Metropolitana de Querétaro, una de las zonas con mayor crecimiento del país. Está a 5 min del Libramiento Surponiente, con Costco, HEB, Starbucks y Chedraui en el corredor, además de desarrollos residenciales AAA a solo 2 min. La zona ya está detonando con hechos: grandes marcas y desarrollos residenciales ya están presentes, y se suma la llegada del Tren México–Querétaro (2027). Grupo Antani consolidó un macrolote con frente a la vialidad principal, una ubicación estratégica y difícil de replicar. ¿Deseas que uno de nuestros asesores te muestre los planos en una videollamada?'],
+      ['6','<b>¿Cuánto necesito para sumarme?</b> — Desde $480 mil pesos, y no de contado: puedes entrar con aportaciones desde $20 mil al mes, a 24 o 36 meses. Hay distintas clases según el monto que quieras destinar. ¿Te conecto con un asesor para que te muestre las opciones?']
+    ]
+  },
+  docs:[{t:'Anexo 02 · Configuración del Bot'},{t:'Anexo 10 · Opinión legal RVG'}],
+},
+
+/* ---------- 4 · VIDEOLLAMADA / CÍRCULO COMERCIAL LID ---------- */
+{
+  id:4, title:'Videollamada comercial · Círculo Comercial LID', phase:'Fase 1 · Captación', section:'Manual, etapa 4 · Anexo 03', area:'comercial',
+  resp:'Área Comercial (asesor / cerrador)',
+  disparo:'Reserva confirmada por el Bot 2',
+  salida:'Decisión del prospecto: se integra, sigue en seguimiento o se descarta',
+  sistemas:'Zoom + Kommo',
+  sub:[
+    {type:'group', t:'Etapa 0 · apertura y exploración'},
+    {n:'0', t:'Guía, no libreto', d:'Conocer a la persona y buscar puntos en común · explorar qué inversiones ha hecho antes y a qué se dedica · entender su objetivo patrimonial y su horizonte de tiempo · atender preguntas frecuentes y dudas iniciales.', area:'comercial'},
+
+    {type:'group', t:'Etapas 1–3 · quiénes somos y de dónde viene el negocio'},
+    {n:'1', t:'Quiénes somos · Grupo Antani', d:'Manufactura de precisión: herramientas de corte de carburo de tungsteno y diamante policristalino para GM, Volkswagen, Bombardier y Boeing · desarrolladora de vivienda: +1,200 viviendas y +5,000 unidades comercializadas · Fundación Antani: +250 atletas · tierra: Land Investment & Development (LID).', area:'comercial'},
+    {n:'2', t:'Qué es LID', d:'Compra y adquisición de tierra estratégica en zonas de alta proyección de plusvalía, principalmente en Querétaro: segunda zona metropolitana de mayor crecimiento poblacional proyectado 2020–2050 (+124%) y crecimiento de hogares 2010–2020 de +63.5% contra ~25% nacional. Fuente: 4S / Real Estate Foresight.', area:'comercial'},
+    {n:'3', t:'Cómo nació el negocio (2020)', d:'Antani desarrollaba vivienda media en El Marqués; con la pandemia se agotó el inventario. Un propietario remató su terreno con 50% de descuento: Antani puso el 40% y un inversionista de confianza el 60%. Tras los estudios, revender la tierra en breña dejaba casi lo mismo que construir, sin años de obra ni riesgo: se vendió en 31 meses con 4X bruto y 3X neto. De ahí nació la metodología de LID.', area:'comercial'},
+
+    {type:'group', t:'Etapa 4 · la metodología de 3 fases'},
+    {t:'Fase 1 · estudios especializados y benchmarking', d:'Estudios en cascada país » estado » municipio » zona, con estudios de mejor y mayor uso para identificar qué le hace falta a la zona. Benchmarking: se ubica a los propietarios de macro lotes en el Registro Público y con contactos, se pregunta a cuánto soltarían la tierra y se depuran los precios fuera de mercado para sacar el promedio real por m².', area:'comercial'},
+    {t:'Fase 2 · regla de adquisición (margen de seguridad)', d:'No se compra un terreno si no se logra adquirir por lo menos al 50% del valor promedio de la zona. Si el promedio es $2,000/m², no se paga más de $1,000/m². Da la rentabilidad buscada y un colchón si la zona no rinde lo esperado.', area:'comercial'},
+    {t:'Fase 3 · due diligence legal y técnico', d:'Legal: derecho al tanto, factibilidad de servicios, que no existan dobles escrituras. Técnico: mecánica de suelos, uso de suelo, impacto ambiental y topografía. Con todo en orden se escritura el terreno a nombre de una persona moral dueña al 100% de la tierra, y en ese momento se invita a coinvertir.', area:'comercial'},
+    {t:'Declaración de honestidad', area:'comercial', d:'«En la tierra no se puede garantizar ni la rentabilidad ni una fecha exacta de venta —hay muchas variables—. Pero hablamos de un activo tangible, de lo más seguro para crear patrimonio.»'},
+
+    {type:'group', t:'Etapa 5 · el proyecto actual — Boulevard Metropolitano'},
+    {t:'Origen del polígono', d:'Hace cinco años se compraron 3 hectáreas a pie de carretera a ~$1,000/m² en Huimilpan, sin desarrollo alrededor. Se construyó el estadio, se amplió la carretera y la demanda se disparó: hoy la tierra en breña de la zona ronda $4,000–$4,500/m². Al inflarse los precios se compró «hacia adentro»: tierra interior más barata por no tener acceso a la vialidad, salvo a través del frente propio.', area:'comercial'},
+    {t:'El activo hoy', d:'503,908 m² · 29 parcelas contiguas (~50 ha) · ~200 m de frente directo al Boulevard Metropolitano. Costo promedio de adquisición ~$757.42/m² contra un valor promedio de macrolotes comparables en breña de ~$4,570.04/m²: menos del 30% del valor de mercado.', area:'comercial'},
+    {t:'Contexto de la zona', area:'comercial', d:'Costco, HEB, Starbucks, Chedraui y nuevas plazas comerciales ya en el corredor · residencial AAA —Cañadas del Valle y Preserve Country— a 2 minutos · predio colindante con desarrollo de ~160 ha y Sadasi ya con tierra en la zona · Campus Victor Frankl en verano de 2029 · Tren México–Querétaro previsto para 2027, con estimaciones de sector de hasta 200% de incremento de valor en zonas estratégicas · 5 min del Libramiento Surponiente, 10 de Av. Constituyentes, 20 del Centro Histórico.'},
+
+    {type:'group', t:'Etapa 6 · estructura de inversión'},
+    {t:'Invitación por metro cuadrado en el vehículo SPV 18', d:'Se invita a inversionistas por metro cuadrado, en distintas clases según la aportación mensual y el plazo elegido (24 o 36 meses).', area:'comercial'},
+    {t:'Referencia interna · no se comparte con el prospecto', d:'Costo de adquisición ~$757.42/m² · comparables de mercado ~$4,570.04/m².', area:'comercial'},
+
+    {type:'group', t:'Etapa 7 · el modelo y la invitación'},
+    {t:'Antani es socio, no solo administrador', d:'Política de conservar por lo menos el 20% de la sociedad —en los últimos proyectos no menos del 50%—. «Ganamos de la misma fuente que tú.»', area:'comercial'},
+
+    {type:'group', t:'Etapa 8 · cierre y manejo de objeciones'},
+    {t:'Ocho objeciones con respuesta preparada', d:'1 · plazo · 2 · seguridad jurídica (3 capas) · 3 · certeza de plusvalía · 4 · confianza en Grupo Antani · 5 · percepción de rendimientos · 6 · esquema societario · 7 · respaldo integral · 8 · credibilidad de las proyecciones.', area:'comercial'},
+    {t:'Paso 1 · resolver dudas e invitar a la oficina', d:'Torre 57, o a conocer el proyecto en sitio.', area:'comercial'},
+    {t:'Paso 2 · compartir la información para su revisión', area:'comercial'},
+    {t:'Paso 3 · elegir clase y esquema', d:'Mensualidad y plazo de 24 o 36 meses.', area:'comercial'},
+    {t:'Paso 4 · revisar contrato y documentos corporativos', d:'Se invita expresamente a revisarlos con su abogado.', area:'comercial'},
+    {type:'dec', t:'¿Decide integrarse?',
+      br:{label:'No', tone:'red', node:{type:'exit', t:'Seguimiento o descartado', d:'Regresa al pipeline: «Seguimiento» si sigue vivo, «Descartado» si no continúa.'}}},
+    {n:'5', t:'Pipeline comercial en el CRM (Kommo)', in:'Sí', d:'El asesor mueve el lead de etapa; la firma del contrato, el arranque del calendario de aportaciones y el registro en el libro de accionistas ocurren en las etapas 8, 9 y 14.', area:'crm', opens:5}
+  ],
+  reglas:[
+    'Encuadre obligatorio: «hazte socio», «adquieres acciones de la empresa dueña de la tierra». Prohibido decir fondo, prometer rendimientos, rentabilidades o tasas, «garantizado» o «asegura tu ganancia».',
+    'El retorno histórico solo puede citarse como dato del pasado, con la leyenda de que no representa una promesa de resultados futuros.',
+    'Regla de adquisición: no se compra si no se logra al menos al 50% del valor promedio de la zona.',
+    'Las decisiones grandes —como aceptar una oferta de compra— se toman en asamblea por mayoría, con voz y voto según participación.',
+    'Tono institucional y formal, sobrio y con datos; sin hype ni urgencia artificial.'
+  ],
+  tiempos:['El bot la ofrece como una videollamada de 15 minutos con un asesor.','Salida conservadora del proyecto: 4 a 6 años.'],
+  salidas:['No decide en la llamada → «Seguimiento» con documentación compartida.','No continúa → «Descartado», se conserva en base de datos.'],
+  tablas:[
+    TABLA_CLASES,
+    {
+      title:'Las 8 objeciones y su respuesta · Anexo 03, etapa 8',
+      head:['#','Objeción y respuesta'],
+      rows:[
+        ['1','<b>Plazo.</b> Las 24 o 36 mensualidades son el calendario de aportación, no el plazo de la inversión; la salida típica es de 4 a 6 años y nunca se fuerza una venta si perjudica el valor de los socios.'],
+        ['2','<b>Seguridad jurídica.</b> Tres capas: el activo es real y está limpio (due diligence de escrituras, Registro Público, sin gravámenes ni litigios, uso de suelo y accesos) y queda escriturado a nombre de la persona moral; la participación se documenta con contrato desde el inicio y se registra en el libro de accionistas al completar el plan; y detrás está Grupo Antani como socio del proyecto, no como intermediario.'],
+        ['3','<b>Certeza de plusvalía.</b> No se pueden garantizar rendimientos. La metodología identifica zonas hacia donde se dirige el desarrollo y busca tierra con las características que le hacen falta a la zona; comprar a mitad del precio promedio da tranquilidad sobre la inversión.'],
+        ['4','<b>Confianza en Grupo Antani.</b> Conglomerado diversificado y reconocido en Querétaro, con oficina física en Torre 57. El dueño, Anuar El Jeitani, forma parte de YPO, que audita a las empresas de sus miembros para verificar su viabilidad legal y legítima.'],
+        ['5','<b>Percepción de rendimientos.</b> No se garantizan rendimientos —en tierra sería irresponsable—. Los resultados históricos son dato del pasado, no promesa. Esto es crecimiento de patrimonio, no renta mensual.'],
+        ['6','<b>Esquema societario.</b> No se compra un pedazo físico del terreno sino acciones de la sociedad dueña del terreno completo. Partirlo en escrituras individuales haría imposible venderlo como una sola pieza a un desarrollador, que es donde está el valor. Las decisiones grandes se toman en asamblea por mayoría.'],
+        ['7','<b>Respaldo integral.</b> Estructura: la tierra se escritura a una persona moral y posteriormente se suma a un fideicomiso (coinversionista » sociedad concentradora » estructura fiduciaria » tierra). Gobernanza: asambleas donde se informa el avance y se decide por mayoría. Documentación: contrato, libro de accionistas y carpeta de due diligence.'],
+        ['8','<b>Credibilidad de las proyecciones.</b> Estudios (4S / Real Estate Foresight) y datos duros —Costco, HEB, Starbucks y Chedraui ya en el corredor—; catalizadores en marcha como el Tren México–Querétaro (2027); y sobre todo, el modelo no depende de que la proyección se cumpla al 100% porque se compra muy por debajo del valor de mercado.']
+      ]
+    }
+  ],
+  docs:[{t:'Anexo 03 · Círculo Comercial LID'},{t:'Anexo 08 · Manual Land Investment & Development'},{t:'Anexo 09 · Manual Land SPV 12'},{t:'Anexo 10 · Opinión legal RVG'}],
+},
+
+/* ---------- 5 · PIPELINE KOMMO ---------- */
+{
+  id:5, title:'Pipeline comercial en el CRM (Kommo)', phase:'Fase 2 · Cierre y formalización', section:'Manual, etapa 5', area:'crm',
+  resp:'Área Comercial · CRM',
+  disparo:'Videollamada agendada',
+  salida:'Prospecto movido a «Cierre» (o a «Descartado»)',
+  sistemas:'Kommo',
+  sub:[
+    {t:'Lead asignado al área comercial', d:'Una vez agendada la videollamada, el prospecto se asigna al área comercial dentro del CRM de Kommo y se le da seguimiento por etapas hasta concretar su incorporación o su descarte.', area:'crm'},
+    {t:'Etiqueta de color por prioridad', d:'Asignada automáticamente al crear el lead: rojo prioridad alta · amarillo prioridad media · blanco prioridad baja. Ordena el trabajo del asesor dentro del pipeline.', area:'crm'},
+    {type:'dec', t:'¿Se conectó a la<br>videollamada?',
+      br:{label:'No', node:{t:'Etapa · Videollamada no realizada', d:'El asesor lo mueve a esta etapa, lo que reactiva automáticamente al ChatBot para enviarle un mensaje invitándolo a reagendar. Si no responde, el ChatBot realiza intentos de reagendamiento durante tres días consecutivos.', area:'crm'}}},
+    {t:'Etapa · Videollamada realizada', in:'Sí', d:'El prospecto se conecta y es atendido por el asesor comercial conforme al guion del Círculo Comercial LID.', area:'comercial', opens:4},
+    {t:'Etapa · Seguimiento', d:'Después de la videollamada el asesor da seguimiento; en esta etapa habitualmente se le comparte la documentación del proyecto para su revisión.', area:'comercial'},
+    {type:'dec', t:'¿Manifiesta interés tras<br>revisar la documentación?',
+      br:{label:'No', tone:'red', node:{type:'exit', t:'Etapa · Descartado', d:'Los prospectos que no continúan se envían a esta etapa, donde se conservan en una base de datos.'}}},
+    {t:'Etapa · Interesado', in:'Sí', d:'El prospecto manifiesta su interés en participar en el proyecto.', area:'comercial'},
+    {t:'Etapa · Cierre', d:'Al mover al prospecto a esta etapa se activa un segundo ChatBot, encargado de llevarlo al siguiente proceso: la recopilación de la documentación necesaria para el alta del inversionista.', area:'crm'},
+    {n:'6', t:'Alta del inversionista: KYC y esquema', area:'comercial', opens:6}
+  ],
+  reglas:[
+    'Las automatizaciones se disparan cuando el asesor mueve el lead de etapa.',
+    'Los prospectos que no continúan se conservan en la base de datos, en la etapa «Descartado».'
+  ],
+  tiempos:['Reagendamiento automático: intentos durante tres días consecutivos.'],
+  salidas:['Descartado → se conserva en la base de datos.'],
+  tabla:{
+    title:'Las 6 etapas del pipeline',
+    head:['Etapa','Qué significa'],
+    rows:[
+      ['Videollamada realizada','El prospecto se conecta y es atendido por el asesor comercial.'],
+      ['Videollamada no realizada','No se conectó. Reactiva al ChatBot para reagendar, con intentos durante 3 días.'],
+      ['Seguimiento','El asesor da seguimiento y comparte la documentación del proyecto.'],
+      ['Interesado','Tras revisar la documentación, manifiesta interés en participar.'],
+      ['Cierre','Activa el segundo ChatBot, que recopila la documentación para el alta del inversionista.'],
+      ['Descartado','No continúa; se conserva en la base de datos.']
+    ]
+  },
+  docs:[{t:'Manual del Flujo Integral, etapa 5'},{t:'CRM interno — pendiente de enlace', miss:true}]
+},
+
+/* ---------- 6 · ALTA DEL INVERSIONISTA ---------- */
+{
+  id:6, title:'Alta del inversionista · KYC y esquema', phase:'Fase 2 · Cierre y formalización', section:'Manual, etapa 6 · Anexo 07', area:'comercial',
+  resp:'Área Comercial',
+  disparo:'Lead movido a la etapa «Cierre»',
+  salida:'KYC capturado y esquema definido, base de la documentación legal',
+  sistemas:'CRM interno',
+  sub:[
+    {t:'Se activa el segundo ChatBot', d:'Solicita al prospecto los datos y documentos necesarios para el alta.', area:'crm'},
+
+    {type:'group', t:'KYC · Ficha de Identificación para cumplimiento de la Ley Antilavado'},
+    {t:'Datos de identificación', d:'Nombre completo · fecha y país de nacimiento · nacionalidad · CURP y RFC · actividad.', area:'legal'},
+    {t:'Domicilio y contacto', d:'Calle, número exterior e interior, colonia, municipio, estado, país y código postal · teléfonos de oficina, casa y celular · correo electrónico.', area:'legal'},
+    {t:'Estado civil y régimen', d:'Soltero, casado, divorciado o viudo · sociedad conyugal o separación de bienes.', area:'legal'},
+    {t:'Identificación oficial', d:'Nombre de la identificación, folio o número y autoridad que la expide.', area:'legal'},
+    {t:'Representante legal', d:'Cuando existe: nombre sin abreviaturas, RFC, CURP y dirección.', area:'legal'},
+    {t:'Constancia de dueño beneficiario', d:'Declaración única bajo protesta de decir verdad, conforme a la LFPIORPI.', area:'legal'},
+
+    {type:'group', t:'Esquema comercial del socio'},
+    {t:'Régimen de participación', d:'Persona física o persona moral.', area:'comercial'},
+    {t:'Proyecto inmobiliario seleccionado', area:'comercial'},
+    {t:'Clase de sociedad', d:'Clases 1 a 6. La clase depende directamente del monto de inversión comprometido.', area:'comercial'},
+    {t:'Precio por m² y metros cuadrados asignados', d:'Según la clase seleccionada.', area:'comercial'},
+    {t:'Plazo y forma de firma del contrato', d:'24 o 36 meses.', area:'comercial'},
+    {t:'Monto mensual y monto total aportado', area:'comercial'},
+    {t:'Fecha del primer pago y día de los pagos subsecuentes', area:'comercial'},
+    {t:'Porcentaje de tenencia accionaria de referencia en SPV LID 18', area:'comercial'},
+    {t:'Fecha de captura del alta', area:'comercial'},
+    {t:'Referencia interna', area:'comercial', d:'Costo de adquisición y margen de LID. De uso exclusivo del área comercial: no se comparte con el socio.'},
+
+    {type:'group', t:'Salida'},
+    {t:'Alta capturada en el CRM', d:'El KYC y el esquema comercial son la base con la que se genera la documentación legal.', area:'comercial'},
+    {n:'7', t:'Integración del expediente documental', area:'legal', opens:7}
+  ],
+  reglas:[
+    'La clase la determina el monto de inversión comprometido.',
+    'El KYC se firma bajo protesta de decir verdad conforme a la LFPIORPI, e incluye la constancia de dueño beneficiario.',
+    'El costo de adquisición y el margen de LID no se comparten con el socio.'
+  ],
+  tabla:TABLA_CLASES,
+  docs:[{t:'Anexo 07 · KYC Antilavado'},{t:'Manual del Flujo Integral, etapa 6'},{t:'CRM interno — pendiente de enlace', miss:true}],
+},
+
+/* ---------- 7 · EXPEDIENTE ---------- */
+{
+  id:7, title:'Integración del expediente del inversionista', phase:'Fase 2 · Cierre y formalización', section:'Manual, etapa 7', area:'legal',
+  resp:'Área Comercial · Área Legal',
+  disparo:'Alta del inversionista capturada',
+  salida:'Expediente oficial completo, listo para la documentación legal',
+  sistemas:'CRM interno',
+  sub:[
+    {t:'Alta del inversionista capturada', d:'KYC y esquema comercial listos.', area:'comercial', opens:6},
+    {type:'dec', t:'¿Participa como<br>persona moral?',
+      br:{label:'Sí', node:{t:'Requisitos adicionales', d:'Además de la documentación base: acta constitutiva de la empresa y, en caso de ser necesario, documentos complementarios que acrediten la representación legal.', area:'legal'}}},
+
+    {type:'group', in:'en ambos casos', t:'Documentación base del expediente'},
+    {t:'INE', area:'legal', small:true},
+    {t:'Acta de nacimiento', area:'legal', small:true},
+    {t:'Comprobante de domicilio', area:'legal', small:true},
+    {t:'CURP', area:'legal', small:true},
+    {t:'Constancia de Situación Fiscal', area:'legal', small:true},
+    {t:'Estado de cuenta o extracto bancario', area:'legal', small:true},
+    {t:'KYC · Ficha de Identificación para cumplimiento de la Ley Antilavado', area:'legal', small:true},
+
+    {type:'group', t:'Invitación formal'},
+    {t:'Carta Invitación al Proyecto', d:'Grupo Antani genera la invitación formal para integrarse como socio del proyecto inmobiliario correspondiente. Forma parte del expediente legal y deberá ser firmada por el inversionista.', area:'legal'},
+    {t:'Expediente oficial integrado', d:'Toda esta documentación conforma el expediente oficial del inversionista.', area:'legal'},
+    {n:'8', t:'Elaboración y firma de la documentación legal', area:'legal', opens:8}
+  ],
+  reglas:[
+    'La persona moral entrega, además de la documentación correspondiente, el acta constitutiva y —en su caso— los documentos que acrediten la representación legal.',
+    'La Carta Invitación forma parte del expediente legal y debe ser firmada por el inversionista.',
+    'Una vez integrado el expediente se procede a elaborar la documentación legal.'
+  ],
+  docs:[{t:'Anexo 04 · Carta Invitación'},{t:'CRM interno — pendiente de enlace', miss:true}]
+},
+
+/* ---------- 8 · DOCUMENTACIÓN LEGAL ---------- */
+{
+  id:8, title:'Elaboración y firma de la documentación legal', phase:'Fase 2 · Cierre y formalización', section:'Manual, etapa 8', area:'legal',
+  resp:'Área Legal',
+  disparo:'Expediente documental integrado',
+  salida:'Los 4 documentos firmados y el inversionista incorporado',
+  sistemas:'API de We Trust',
+  sub:[
+    {t:'Generación de los documentos', d:'Toda la documentación se genera con la información del KYC y del esquema comercial capturados en el alta.', area:'legal'},
+
+    {type:'group', t:'Los 4 documentos'},
+    {n:'1', t:'Contrato de coinversión', area:'legal'},
+    {n:'2', t:'Carta Invitación al Proyecto', d:'Invitación formal a integrarse como socio del proyecto (Anexo 04).', area:'legal'},
+    {n:'3', t:'Aviso de Privacidad', d:'Anexo 06.', area:'legal'},
+    {n:'4', t:'KYC · Ficha de Identificación para cumplimiento de la Ley Antilavado', d:'Formato de SPV LID 18 conforme a la LFPIORPI: datos de identificación, domicilio, identificación oficial, representante legal y constancia de dueño beneficiario, firmada bajo protesta de decir verdad (Anexo 07).', area:'legal'},
+
+    {type:'group', t:'Firma'},
+    {t:'Envío por la API de We Trust', d:'Plataforma que proporciona validez jurídica al proceso de firma electrónica y garantiza el cumplimiento de la normativa legal aplicable.', area:'legal'},
+    {type:'dec', t:'¿Tipo de firma?',
+      br:{label:'Autógrafa', node:{t:'Firma autógrafa', d:'Cuando el procedimiento así lo requiere. Converge en la misma validación.', area:'legal'}}},
+    {t:'Firma electrónica', in:'Electrónica', area:'legal'},
+    {t:'Recepción de los documentos firmados', in:'ambas vías', area:'legal'},
+    {type:'dec', t:'¿Los 4 documentos<br>quedaron firmados?',
+      br:{label:'No', tone:'red', node:{t:'Seguimiento del área legal', d:'Reenvío por We Trust y seguimiento hasta completar las firmas; regresa a esta misma validación.', area:'legal'}}},
+    {t:'Inversionista formalmente incorporado al proyecto', in:'Sí', area:'legal'},
+    {n:'9', t:'Inicio de las aportaciones mensuales', d:'A partir de la firma, el inversionista pasa automáticamente a la segunda etapa del ecosistema de automatización, correspondiente al área de cobranza.', area:'cobranza'}
+  ],
+  reglas:[
+    'Los cuatro documentos deberán quedar debidamente firmados.',
+    'Toda la documentación se genera con la información del alta: KYC y esquema comercial.',
+    'La firma electrónica se realiza a través de la API de We Trust, que da validez jurídica al proceso.'
+  ],
+  docs:[
+    {t:'Anexo 04 · Carta Invitación'},
+    {t:'Anexo 05 · Contrato de coinversión — pendiente de adjuntar', miss:true},
+    {t:'Anexo 06 · Aviso de Privacidad'},
+    {t:'Anexo 07 · KYC Antilavado'},
+    {t:'Anexo 10 · Opinión legal RVG'}
+  ],
+},
+
+/* ---------- 10 · CHATBOT DE COBRANZA ---------- */
+{
+  id:10, title:'ChatBot de cobranza', phase:'Fase 3 · Cobranza', section:'Manual, etapa 10', area:'cobranza',
+  resp:'Área de Cobranza · CRM',
+  disparo:'Firma del contrato',
+  salida:'Mensualidad confirmada y recibo emitido, mes a mes',
+  sistemas:'CRM interno + API de BanBajío',
+  sub:[
+    {t:'Alta en el ecosistema de cobranza', d:'Después de la firma comienza oficialmente el periodo de aportaciones mensuales y el inversionista pasa a la segunda etapa de automatización.', area:'cobranza'},
+
+    {type:'group', t:'Ciclo mensual'},
+    {t:'Inicio de mes · recordatorio preventivo', d:'El bot envía un recordatorio para que el inversionista tenga presente su próxima aportación y pueda realizarla oportunamente.', area:'cobranza'},
+    {t:'Recordatorio antes del vencimiento', d:'Se envía cada mes antes de la fecha de pago.', area:'cobranza'},
+    {type:'dec', t:'¿Pago recibido?',
+      br:{label:'No', node:{t:'Detección de pago pendiente o tardío', d:'El bot envía recordatorios automáticos cuando existe atraso. Si el atraso persiste entra la gestión de morosidad (etapa 12).', area:'cobranza', opens:12}}},
+    {t:'Confirmación automática del pago', in:'Sí', d:'El bot confirma automáticamente cuando un pago ha sido recibido.', area:'cobranza'},
+    {t:'Emisión del recibo correspondiente', area:'cobranza'},
+    {t:'Estado de cuenta actualizado', d:'El bot mantiene informado al inversionista sobre el estado de su cuenta.', area:'cobranza',
+      br:{label:'siguiente mes', tone:'green', node:{t:'Vuelve al recordatorio preventivo', d:'El ciclo se repite mientras haya recordatorios activos.', area:'cobranza'}}},
+
+    {type:'group', t:'Mitad del plazo · mes 12 de 24 o mes 18 de 36'},
+    {t:'Último recordatorio del plan', d:'A partir de este punto el bot deja de enviar recordatorios de fecha de pago.', area:'cobranza'},
+    {type:'msg', t:'Estimado inversionista, llegaste a la mitad de tu plan de aportaciones. A partir de este mes dejamos de enviarte recordatorios mensuales: tu fecha de pago se mantiene igual, el día [día] de cada mes. Seguimos registrando cada aportación y enviándote tu recibo, y cualquier aclaración la puedes hacer por este mismo medio.'},
+    {t:'Segunda mitad del plazo sin recordatorios', d:'El registro automático de pagos, la emisión de recibos y la gestión de morosidad siguen operando igual.', area:'cobranza'},
+    {n:'13', t:'Conclusión de las mensualidades', d:'Al completar las 24 o 36 aportaciones.', area:'cobranza'}
+  ],
+  reglas:[
+    'El bot está conectado con el CRM interno y con la API de BanBajío.',
+    'Los recordatorios de fecha de pago se envían hasta el mes 12 en inversiones a 24 meses y hasta el mes 18 en inversiones a 36 meses. En ese punto se avisa al inversionista y ya no se envían más.',
+    'Mantiene informado al inversionista sobre el estado de su cuenta.'
+  ],
+  tiempos:['Recordatorio preventivo al inicio de cada mes.','Recordatorio mensual antes del vencimiento.','Recordatorios automáticos cuando existe atraso.'],
+  salidas:['Atraso sostenido → gestión de morosidad (etapa 12).','Plazo completado → conclusión de las mensualidades (etapa 13).'],
+  tabla:{
+    title:'Las 8 funciones del bot de cobranza · Manual, etapa 10',
+    head:['#','Función'],
+    rows:[
+      ['1','Recordar anticipadamente cada fecha de pago, hasta el mes 12 en planes de 24 meses y hasta el mes 18 en planes de 36.'],
+      ['2','Enviar recordatorios mensuales antes del vencimiento.'],
+      ['3','Confirmar automáticamente cuando un pago ha sido recibido.'],
+      ['4','Emitir el recibo correspondiente.'],
+      ['5','Detectar pagos pendientes.'],
+      ['6','Detectar pagos tardíos.'],
+      ['7','Enviar recordatorios automáticos cuando exista atraso.'],
+      ['8','Mantener informado al inversionista sobre el estado de su cuenta.']
+    ]
+  },
+  docs:[{t:'Manual del Flujo Integral, etapa 10'}]
+},
+
+/* ---------- 11 · REGISTRO DE PAGOS ---------- */
+{
+  id:11, title:'Registro automático de pagos (BanBajío)', phase:'Fase 3 · Cobranza', section:'Manual, etapa 11', area:'cobranza',
+  resp:'Área de Cobranza y Administración',
+  disparo:'Transferencia o cargo domiciliado del inversionista',
+  salida:'Pago conciliado, CRM actualizado y recibo enviado',
+  sistemas:'API de BanBajío + CRM interno',
+  sub:[
+    {type:'dec', t:'¿Medio de pago?',
+      br:{label:'Domiciliación bancaria', node:{t:'Cargo domiciliado', d:'Se ejecuta en la fecha pactada.', area:'cobranza'}}},
+    {t:'Transferencia electrónica', in:'Transferencia', area:'cobranza'},
+    {t:'Registro automático del movimiento', in:'ambos medios', d:'Cada vez que el inversionista realiza una transferencia o un cargo domiciliado, el sistema registra automáticamente el movimiento.', area:'cobranza'},
+    {t:'Conciliación bancaria', area:'cobranza'},
+    {t:'Actualización automática del CRM', area:'cobranza'},
+    {t:'El ChatBot identifica el pago y genera el recibo', d:'El recibo se envía automáticamente al inversionista.', area:'cobranza',
+      br:{label:'el pago no se registra', tone:'red', node:{t:'Incidencia detectada', d:'El sistema detecta la incidencia e inicia el proceso de seguimiento.', area:'cobranza', opens:12}}},
+    {t:'Pago aplicado a la mensualidad correspondiente', area:'cobranza'}
+  ],
+  reglas:[
+    'Todos los pagos son procesados mediante la API de BanBajío.',
+    'El sistema permite transferencias electrónicas, domiciliación bancaria, registro automático de pagos, conciliación bancaria y actualización automática del CRM.',
+    'Cada pago identificado genera automáticamente su recibo.'
+  ],
+  salidas:['Pago no registrado → incidencia y proceso de seguimiento.'],
+  docs:[{t:'Manual del Flujo Integral, etapa 11'}]
+},
+
+/* ---------- 12 · MOROSIDAD ---------- */
+{
+  id:12, title:'Gestión de morosidad', phase:'Fase 3 · Cobranza', section:'Manual, etapa 12', area:'cobranza',
+  resp:'Área de Cobranza',
+  disparo:'Incumplimiento de una mensualidad',
+  salida:'Cuenta regularizada o contrato cancelado',
+  sistemas:'CRM interno + ChatBot de cobranza',
+  sub:[
+    {t:'Detección automática de la falta de pago', d:'El sistema detecta automáticamente que la mensualidad no se cubrió.', area:'cobranza'},
+    {t:'Proceso automatizado de seguimiento', d:'El ChatBot comienza a enviar recordatorios. Todo el proceso queda documentado dentro del CRM.', area:'cobranza'},
+    {t:'Ventana contractual de hasta 3 meses', d:'De acuerdo con lo estipulado en el contrato, el inversionista dispone de un plazo de hasta tres meses para ponerse al corriente antes de proceder con la cancelación.', area:'cobranza'},
+    {t:'Aviso a 10 días hábiles del vencimiento', d:'Automatización adicional que informa nuevamente al inversionista que debe regularizar su cuenta para evitar la cancelación del contrato, intereses adicionales y las consecuencias establecidas en el contrato.', area:'cobranza'},
+    {type:'dec', t:'¿Regulariza dentro<br>del plazo?',
+      br:{label:'No', tone:'red', node:{type:'exit', t:'Cancelación del contrato', d:'Se procede conforme a lo estipulado en el contrato. Todo queda documentado en el CRM.'}}},
+    {t:'Cuenta regularizada', in:'Sí', d:'Vuelve al registro automático de pagos y al ciclo mensual normal.', area:'cobranza', opens:11}
+  ],
+  reglas:[
+    'El plazo de hasta tres meses está estipulado en el contrato.',
+    'El aviso de 10 días hábiles antes del vencimiento es una automatización independiente de los recordatorios ordinarios.',
+    'Todo el proceso queda documentado dentro del CRM.'
+  ],
+  tiempos:['Hasta 3 meses de tolerancia contractual.','Aviso reforzado 10 días hábiles antes de que concluya el plazo.'],
+  salidas:['Regulariza → vuelve al ciclo de pagos (etapa 11).','No regulariza → cancelación del contrato.'],
+  docs:[{t:'Anexo 05 · Contrato de coinversión — pendiente de adjuntar', miss:true},{t:'Manual del Flujo Integral, etapa 12'}],
+},
+
+/* ---------- 14 · ASAMBLEA Y ESTRUCTURA ---------- */
+{
+  id:14, title:'Asamblea, estructura accionaria y formalización', phase:'Fase 4 · Incorporación y salida', section:'Manual, etapa 14', area:'corp',
+  resp:'Área Jurídica y Corporativa',
+  disparo:'Conclusión del pago total de la inversión',
+  salida:'Socio registrado, con título accionario o documento que acredite su participación',
+  sub:[
+    {t:'Aportaciones concluidas', d:'El sistema identifica automáticamente que el inversionista cumplió con la totalidad de sus obligaciones económicas.', area:'cobranza'},
+    {t:'Incorporación a la siguiente Asamblea de Socios', d:'Correspondiente al proyecto inmobiliario en el que participa. Durante la asamblea se formaliza legalmente su participación dentro de la sociedad.', area:'corp'},
+
+    {type:'group', t:'14.1 · Mecánica de la estructura — subida del capital'},
+    {n:'0', t:'Emisión del aumento en SPV LID 18', d:'La asamblea de SPV 18 emite las acciones del aumento de capital variable de $100,000,000; Antani las suscribe sin pagarlas todavía (acciones «pagadoras»).', area:'corp'},
+    {n:'1', t:'El coinversionista paga la aportación a Antani', d:'Transferencia conforme al calendario del Anexo D, en parcialidades dentro del mes (Cláusula 1ª). Paga por acción: capital más prima de suscripción. Contratos de Coinversión (docs. 2 y 3).', area:'corp'},
+    {n:'2', t:'Antani exhibe el 100% en cada Corte', d:'Cortes periódicos en las fechas que Antani determina. Con ese pago libera sus acciones suscritas y no pagadas, y entrega el 100% del efectivo recibido (Cláusula 2ª).', area:'corp'},
+    {n:'3', t:'AFAC en Cortes hacia SPV LID 12', d:'SPV LID 18 —«El Inversionista» en el Convenio (doc. 1)— exhibe lo recibido pendiente en cada Corte. AFAC irrevocable, sin interés, con tope de $100 MDP (Convenio, Cláusulas 1ª–3ª).', area:'corp'},
+    {n:'4', t:'Pago en especie · endoso de acciones al coinversionista', d:'Tras cada Corte, Antani transmite acciones íntegramente pagadas e inscritas, coordinado con las asambleas periódicas (Cláusula 2ª). Fiscalmente es una enajenación de acciones.', area:'corp'},
+    {n:'5', t:'Compra progresiva de predios', d:'SPV LID 12 —«La Sociedad», titular de los inmuebles del proyecto, RFC SLD2402064R9— adquiere a $757.42 por m² conforme se colocan los recursos, mes a mes. Predios en Huimilpan y Corregidora, Qro. (Anexos B y C: relación viva de predios adquiridos).', area:'corp'},
+    {n:'6', t:'Capitalización de la AFAC', d:'SPV LID 12 emite acciones a favor de SPV LID 18, en una o más rondas, mediante el acuerdo corporativo que corresponda conforme a estatutos y a la LGSM (Convenio, Cláusula 4ª).', area:'corp'},
+
+    {type:'group', t:'14.1 · Valor nominal y prima por clase'},
+    {t:'Valor nominal de $1.00 MXN por acción', d:'Cada acción tiene ese valor nominal; lo que cambia entre clases es la prima por acción.', area:'corp'},
+    {t:'Prima por acción según la clase', d:'En el esquema de SPV 18 SAPI cada clase contempla 16,666,666.67 acciones y la prima aumenta progresivamente conforme aumenta la clase. El monto que aporta el socio es la combinación del valor nominal más la prima de su clase.', area:'corp'},
+
+    {type:'group', t:'14.2 · Formalización de la participación'},
+    {t:'Firma de los libros accionarios', d:'Cuando corresponda.', area:'corp'},
+    {t:'Firma de las actas de asamblea', area:'corp'},
+    {t:'Registro formal del inversionista como socio', area:'corp'},
+    {t:'Entrega del título accionario', d:'O del documento que acredite su participación dentro de la sociedad. Con esta etapa concluye el proceso de incorporación formal.', area:'corp'},
+
+    {n:'15', t:'Desarrollo del proyecto inmobiliario', area:'corp'},
+
+    {type:'group', t:'Retorno al final del proyecto · sentido inverso (etapa 17)'},
+    {t:'Retorno · plusvalía o venta', area:'corp', d:'SPV LID 12 reparte a sus accionistas → SPV LID 18 recibe su parte → Antani Corporation la recibe como accionista → y la distribuye entre los coinversionistas según su participación. Los dividendos se reparten en cada nivel de la cadena.'}
+  ],
+  reglas:[
+    'Cada acción tiene un valor nominal de $1.00 MXN; lo que cambia entre clases es la <b>prima por acción</b>.',
+    'En el esquema de SPV 18 cada clase contempla 16,666,666.67 acciones.',
+    'El monto aportado no es solo valor nominal: es valor nominal más la prima correspondiente a la clase.',
+    'La AFAC es irrevocable, sin interés y con tope de $100 MDP (Convenio, Cláusulas 1ª–3ª).',
+    'Cada SPV es independiente: otro proyecto se estructura en otro vehículo, para separar riesgos y mantener claridad contable.',
+    'Las decisiones relevantes de la sociedad se toman en asamblea por mayoría, con voz y voto según participación.'
+  ],
+  tablas:[
+    {
+      title:'Prima por acción por clase · SPV 18 SAPI, Manual, etapa 14.1',
+      head:['Clase','Valor nominal','Prima por acción','Prima %'],
+      rows:[
+        ['Clase 1','$1.00','$0.00','0.00%'],
+        ['Clase 2','$1.00','$90.00','9.10%'],
+        ['Clase 3','$1.00','$150.00','15.17%'],
+        ['Clase 4','$1.00','$220.00','22.24%'],
+        ['Clase 5','$1.00','$290.00','29.32%'],
+        ['Clase 6','$1.00','$360.00','36.40%']
+      ]
+    },
+    {
+      title:'Estructura del proyecto · niveles y activo',
+      head:['Nivel','Papel'],
+      rows:[
+        ['Coinversionistas','Personas físicas y morales. Pagan por acción: capital más prima de suscripción (Contratos de Coinversión, docs. 2 y 3).'],
+        ['Antani Corporation LID Division','«Inversionista Inicial»: concentra los recursos entre Cortes y suscribe el aumento de $100 MDP con acciones emitidas y no pagadas.'],
+        ['SPV LID 18, S.A. de C.V.','Vehículo que agrupa a los inversionistas. Aumento de capital variable de $100,000,000. «El Inversionista» en el Convenio (doc. 1).'],
+        ['SPV LID 12, S.A. de C.V.','«La Sociedad»: recibe la AFAC y es titular de los inmuebles del proyecto. RFC SLD2402064R9.'],
+        ['Predios','Huimilpan y Corregidora, Qro. Anexos B y C: relación viva de predios adquiridos.']
+      ]
+    }
+  ],
+  docs:[
+    {t:'Anexo 08 · Manual Land Investment & Development'},
+    {t:'Anexo 09 · Manual Land SPV 12'},
+    {t:'Convenio Antani – SPV LID 18 (doc. 1)', miss:true},
+    {t:'Contratos de Coinversión (docs. 2 y 3)', miss:true},
+    {t:'Anexos B, C y D · predios y calendario de pagos', miss:true}
+  ]
+}
+
+];
+
+
+/* ============ renderer ============ */
+const $ = (s,r=document)=>r.querySelector(s);
+const el = (t,c,h)=>{const n=document.createElement(t); if(c)n.className=c; if(h!==undefined)n.innerHTML=h; return n;};
+const cvar = a => `var(--${a||'comercial'})`;
+
+function decision(text){
+  const d=el('div','dec');
+  d.innerHTML=`<svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <polygon points="50,1 99,50 50,99 1,50" fill="#fff" stroke="#12263F" stroke-width="1.4" vector-effect="non-scaling-stroke"/>
+  </svg><div class="dtxt">${text}</div>`;
+  return d;
+}
+function fitDecisions(root){
+  (root||document).querySelectorAll('.dec').forEach(d=>{
+    const t=d.querySelector('.dtxt');
+    if(!t) return;
+    d.style.height = Math.max(96, Math.round(t.offsetHeight*2.75 + 12)) + 'px';
+  });
+}
+
+function nodeEl(n, onOpen){
+  if(n.type==='dec') return decision(n.t);
+  if(n.type==='group') return el('div','group',n.t);
+  if(n.type==='btns'){
+    const b = el('div','btnrow');
+    n.opts.forEach(o=>b.appendChild(el('span','btn-pill',o)));
+    return b;
+  }
+  const cls = ['node', n.type==='exit'?'exit':'', n.type==='note'?'note':'', n.type==='term'?'term':'',
+               n.type==='msg'?'msg':'',
+               n.small?'small':'', n.opens?'clickable':'', n.pending?'pending':''].filter(Boolean).join(' ');
+  const x = el('div', cls);
+  x.style.setProperty('--c', cvar(n.area));
+  let inner = '';
+  if(n.n) inner += `<div class="num">${n.n}</div>`;
+  inner += `<div class="txt">${n.eb?`<span class="eb-lbl">${n.eb}</span>`:''}${n.t}${n.d?`<span class="d">${n.d}</span>`:''}${n.tag?`<span class="tag">${n.tag}</span>`:''}</div>`;
+  x.innerHTML = inner;
+  if(n.opens){
+    x.appendChild(el('div','plus','+'));
+    x.tabIndex=0; x.setAttribute('role','button');
+    x.addEventListener('click',()=>onOpen(n.opens));
+    x.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();onOpen(n.opens);}});
+  }
+  return x;
+}
+
+function renderFlow(host, nodes, onOpen){
+  host.innerHTML='';
+  const f = el('div','flow');
+  const noConn = t => t==='group'||t==='btns';
+  nodes.forEach((n,i)=>{
+    const prev = i>0 ? nodes[i-1] : null;
+    const drawConn = i>0 && !noConn(prev.type) &&
+      (!noConn(n.type) || (n.type==='group' && n.in));
+    if(drawConn){
+      const c = el('div','vconn');
+      c.appendChild(el('div','ln'));
+      c.appendChild(el('div','tip'));
+      if(n.in) c.appendChild(el('div','lbl',n.in));
+      const holder = el('div','row nobranch'); holder.appendChild(c);
+      f.appendChild(holder);
+    }
+    const row = el('div', n.br? 'row':'row nobranch');
+    row.appendChild(nodeEl(n,onOpen));
+    if(n.br){
+      const lab = n.br.label || '';
+      const short = lab.length <= 4;
+      const hc = el('div','hconn '+(n.br.tone||''));
+      hc.appendChild(el('div','ln'));
+      hc.appendChild(el('div','tip'));
+      if(lab && short) hc.appendChild(el('div','lbl',lab));
+      row.appendChild(hc);
+      const bn = Object.assign({small:true}, n.br.node);
+      if(lab && !short) bn.eb = lab;
+      row.appendChild(nodeEl(bn, onOpen));
+    }
+    f.appendChild(row);
+  });
+  host.appendChild(f);
+}
+
+/* ============ map ============ */
+function buildLegend(){
+  const g = $('#legend');
+  Object.entries(AREAS).forEach(([k,v])=>{
+    const s = el('span','',`<i class="dot" style="background:${cvar(k)}"></i>${v}`);
+    g.appendChild(s);
+  });
+}
+
+function buildMap(){
+  const m = $('#map'); m.innerHTML='';
+  PHASES.forEach((p,i)=>{
+    const c = el('div','col');
+    c.appendChild(el('div','phase',`Fase ${i+1} · ${p.range}`));
+    c.appendChild(el('h2','phase-name',p.name));
+    const holder = el('div');
+    renderFlow(holder, p.nodes, openStage);
+    c.appendChild(holder);
+    if(p.foot) c.appendChild(el('div','col-foot',p.foot));
+    m.appendChild(c);
+  });
+  fitDecisions(m);
+}
+
+/* ============ panel ============ */
+const OPENABLE = STAGES.filter(s=>s.sub).map(s=>s.id);
+let current = null;
+
+function openStage(id){
+  const s = STAGES.find(x=>x.id===id);
+  if(!s) return;
+  current = id;
+  const c = cvar(s.area);
+  $('#peb').innerHTML = `<span>${s.phase}</span><span class="chip" style="--c:${c}">${AREAS[s.area]}</span>${s.section?`<span>${s.section}</span>`:''}`;
+  $('#ptitle').textContent = `${s.id} · ${s.title}`;
+  renderFlow($('#pflow'), s.sub, openStage);
+  buildFicha(s);
+  requestAnimationFrame(()=>fitDecisions($('#pflow')));
+  const i = OPENABLE.indexOf(id);
+  $('#prev').disabled = i<=0;
+  $('#next').disabled = i>=OPENABLE.length-1;
+  $('#ov').classList.add('on'); $('#panel').classList.add('on');
+  $('#pbody').scrollTop = 0; $('.pflow').scrollTop = 0;
+  document.body.style.overflow='hidden';
+  $('#back').focus();
+}
+function closeStage(){
+  $('#ov').classList.remove('on'); $('#panel').classList.remove('on');
+  document.body.style.overflow='';
+  current=null;
+}
+function step(d){
+  const i = OPENABLE.indexOf(current);
+  const j = i+d;
+  if(j>=0 && j<OPENABLE.length) openStage(OPENABLE[j]);
+}
+
+function buildFicha(s){
+  const f = $('#pficha'); f.innerHTML=''; f.style.setProperty('--c', cvar(s.area));
+  const dl = el('dl','kv');
+  dl.innerHTML = `<dt>Responsable</dt><dd>${s.resp||'—'}</dd>` +
+                 (s.disparo?`<dt>Se dispara con</dt><dd>${s.disparo}</dd>`:'') +
+                 (s.salida?`<dt>Entrega</dt><dd>${s.salida}</dd>`:'') +
+                 (s.sistemas?`<dt>Sistemas</dt><dd>${s.sistemas}</dd>`:'');
+  f.appendChild(el('h3','','Ficha'));
+  f.appendChild(dl);
+  const block=(title, items)=>{
+    if(!items||!items.length) return;
+    f.appendChild(el('h3','',title));
+    const ul = el('ul');
+    items.forEach(t=>ul.appendChild(el('li','',t)));
+    f.appendChild(ul);
+  };
+  block('Reglas de negocio', s.reglas);
+  block('Tiempos y plazos', s.tiempos);
+  block('Salidas y excepciones', s.salidas);
+  const tablas = s.tablas || (s.tabla ? [s.tabla] : []);
+  tablas.forEach(tb=>{
+    f.appendChild(el('h3','',tb.title));
+    const t = el('table','tb');
+    t.innerHTML = `<thead><tr>${tb.head.map(h=>`<th>${h}</th>`).join('')}</tr></thead>` +
+      `<tbody>${tb.rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>`;
+    f.appendChild(t);
+  });
+  if(s.docs&&s.docs.length){
+    f.appendChild(el('h3','','Documentos relacionados'));
+    const d = el('div','docs');
+    s.docs.forEach(x=>d.appendChild(el('span','doc'+(x.miss?' miss':''), x.t)));
+    f.appendChild(d);
+  }
+}
+
+$('#back').onclick=closeStage; $('#close').onclick=closeStage; $('#ov').onclick=closeStage;
+$('#prev').onclick=()=>step(-1); $('#next').onclick=()=>step(1);
+document.addEventListener('keydown',e=>{
+  if(!current) return;
+  if(e.key==='Escape') closeStage();
+  if(e.key==='ArrowLeft') step(-1);
+  if(e.key==='ArrowRight') step(1);
+});
+
+let rt;
+window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>fitDecisions(document),150);});
+
+buildLegend();
+buildMap();
+window.addEventListener('load',()=>fitDecisions(document));
+</script>
+</body>
+</html>
